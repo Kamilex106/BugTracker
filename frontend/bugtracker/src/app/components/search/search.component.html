@@ -1,0 +1,12 @@
+<div class="form-header d-flex align-items-center justify-content-between">
+  <div class="input-group">
+    <input #myInput type="text"
+           placeholder="Monkey wants to search ..."
+           class="form-control form-control-lg"
+           (keyup.enter)="doSearch(myInput.value)" />
+  </div>
+
+  <button (click)="doSearch(myInput.value)" class="btn btn-primary btn-sm ms-3">
+    <i class="bi bi-search"></i> Search
+  </button>
+</div>

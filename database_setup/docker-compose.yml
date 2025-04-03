@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: db_pz
+    environment:
+      POSTGRES_USER: user_pz
+      POSTGRES_PASSWORD: pass_pz
+      POSTGRES_DB: db_pz
+    volumes:
+      - db_data:/var/lib/postgresql/data # Use db_data volume to store database data
+      - ./dataset:/docker-entrypoint-initdb.d # Loading initialization scripts from the local directory
+    networks:
+      - backend
+    ports:
+      - "5432:5432"
+networks:
+  backend:
+
+volumes:
+  db_data:

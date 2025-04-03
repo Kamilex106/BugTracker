@@ -1,0 +1,62 @@
+<h3>Lista zgłoszonych błędów</h3>
+
+<div>
+  <table class="table text-center table-striped table-hover">
+    <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Tytuł</th>
+      <th>Opis</th>
+      <th>Priorytet</th>
+      <th>Kategoria</th>
+      <th>Status</th>
+      <th>Data utworzenia</th>
+      <th>Użytkownik</th>
+      <th>Akcja</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let tempbug of bug_reports">
+      <td class="align-middle">{{ tempbug.id }}</td>
+      <td class="align-middle">{{ tempbug.title }}</td>
+      <td class="align-middle text-start">{{ tempbug.description }}</td>
+      <td class="align-middle">
+          <span class="badge" [ngClass]="{
+            'bg-danger-subtle text-danger': tempbug.priority === 'Critical',
+            'bg-warning-subtle text-warning': tempbug.priority === 'High',
+            'bg-primary-subtle text-primary': tempbug.priority === 'Medium',
+            'bg-success-subtle text-success': tempbug.priority === 'Low'
+          }">
+            {{ tempbug.priority }}
+          </span>
+      </td>
+      <td class="align-middle">{{ tempbug.category?.name || 'Brak kategorii' }}</td>
+      <td class="align-middle">
+        <span class="badge" [ngClass]="{
+          'bg-warning-subtle text-warning': tempbug.actualStatus?.name === 'In Progress',
+          'bg-success-subtle text-success': tempbug.actualStatus?.name === 'Done',
+          'bg-info-subtle text-info': tempbug.actualStatus?.name === 'Resolved',
+          'bg-primary-subtle text-primary': tempbug.actualStatus?.name === 'Open',
+          'bg-secondary-subtle text-secondary': tempbug.actualStatus?.name === 'Closed'
+        }">
+          {{ tempbug.actualStatus?.name || 'Brak statusu' }}
+        </span>
+      </td>
+      <td class="align-middle">{{ tempbug.createdAt }}</td>
+      <td class="align-middle">{{ tempbug.user ? tempbug.user.username : 'Brak' }}</td>
+      <td class="align-middle">
+        <button class="btn btn-primary me-2 btn-sm" (click)="showDetails(tempbug.id)">
+          <i class="bi bi-eye"></i>
+        </button>
+        <button class="btn btn-secondary btn-sm" (click)="editBug(tempbug.id)">
+          <i class="bi bi-pencil"></i>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="bug_reports.length === 0">
+  Brak zgłoszonych błędów do wyświetlenia.
+</div>

@@ -1,0 +1,28 @@
+<div class="form-container">
+  <form (submit)="onSubmit()">
+    <label>Title:</label>
+    <input [(ngModel)]="bugReport.title" name="title" required>
+
+    <label>Description:</label>
+    <textarea [(ngModel)]="bugReport.description" name="description" required></textarea>
+
+    <label>Priority:</label>
+    <select [(ngModel)]="bugReport.priority" name="priority">
+      <option value="Low">Low</option>
+      <option value="Medium">Medium</option>
+      <option value="High">High</option>
+    </select>
+
+    <label>Category:</label>
+    <select [(ngModel)]="bugReport.category" name="category" required>
+      <option *ngFor="let cat of categories" [ngValue]="cat">{{ cat.name }}</option>
+    </select>
+
+    <label>Status:</label>
+    <select [(ngModel)]="bugReport.actualStatus" name="status" required>
+      <option *ngFor="let status of statuses" [ngValue]="status">{{ status.name }}</option>
+    </select>
+
+    <button type="submit">Submit</button>
+  </form>
+</div>

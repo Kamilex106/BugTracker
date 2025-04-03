@@ -1,0 +1,35 @@
+<h3>Historia zmian statusu zgłoszeń</h3>
+
+<div class="table-responsive">
+  <table class="table text-center table-striped table-hover">
+    <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Komentarz</th>
+      <th>Data</th>
+      <th>Akcje</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let log of bugReportLogs">
+      <td class="align-middle">{{ log.id }}</td>
+      <td class="align-middle text-start">{{ log.comment }}</td>
+      <td class="align-middle">{{ log.date | date:'medium' }}</td>
+      <td class="align-middle">
+        <!-- Przycisk Szczegóły (Niebieski) -->
+        <button class="btn btn-info btn-sm me-2 btn-sm">
+          Szczegóły
+        </button>
+        <!-- Przycisk Pokaż zgłoszenie (Niebieski) -->
+        <button class="btn btn-primary btn-sm btn-sm">
+          Pokaż zgłoszenie
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="bugReportLogs.length === 0" class="alert alert-info">
+  Brak historii zmian statusu do wyświetlenia.
+</div>

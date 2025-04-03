@@ -1,0 +1,28 @@
+:root {
+  /* Primary color palette */
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --secondary: #3b82f6;
+  --accent: #8b5cf6;
+
+  /* Background colors */
+  --bg-dark: #111827;
+  --bg-medium: #1f2937;
+  --bg-light: #374151;
+  --card-bg: #1e293b;
+
+  /* Text colors */
+  --text-primary: #f9fafb;
+  --text-secondary: #e5e7eb;
+  --text-muted: #9ca3af;
+
+  /* Status colors */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #3b82f6;
+}
+
+.table-hover tbody tr:hover td {
+  background-color: #edf6f9 !important;
+}

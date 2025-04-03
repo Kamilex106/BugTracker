@@ -1,0 +1,90 @@
+<div class="app-container">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="logo d-flex align-items-center">
+      <img src="assets/images/monkey.webp" alt="Bug Detective Logo" class="me-2">
+      <h5 class="mb-0" style="color: var(--primary);">Bug Detective</h5>
+    </div>
+    <nav class="sidebar-nav">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/bugs" routerLinkActive="active">
+            <i class="bi bi-bug"></i> Bug Report
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/buglogs" routerLinkActive="active">
+            <i class="bi bi-clipboard-data"></i> Bug Report Log
+          </a>
+        </li>
+
+        <!--    FOR ADMINS    -->
+        <li *ngIf="hasRole('admin')" class="nav-item">
+          <a class="nav-link" routerLink="/users" routerLinkActive="active">
+            <i class="bi bi-people"></i> Wyswietl uzytkownikow
+          </a>
+        </li>
+        <!--    FOR ADMINS | USERS    -->
+        <li *ngIf="hasRole('admin', 'user')" class="nav-item">
+          <a class="nav-link" routerLink="/bugreport/add" routerLinkActive="active">
+            <i class="bi bi-plus-circle"></i> Dodaj zgloszenie
+          </a>
+        </li>
+        <!--    TODO    -->
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/TODO" routerLinkActive="active">
+            <i class="bi bi-people"></i> Rejestracja
+          </a>
+        </li>
+        <!--    FOR ADMINS    -->
+        <li *ngIf="hasRole('admin')"  class="nav-item">
+          <a class="nav-link" routerLink="/TODO" routerLinkActive="active">
+            <i class="bi bi-flag"></i> Przypisz zgloszenie
+          </a>
+        </li>
+        <!--    TODO    -->
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Header -->
+    <header class="header">
+      <div class="container-fluid d-flex align-items-center justify-content-between h-100 px-4">
+        <div class="d-flex align-items-center">
+          <button class="btn btn-link text-white d-lg-none me-2" id="sidebarToggle">
+            <i class="bi bi-list fs-4"></i>
+          </button>
+          <div class="header-title d-flex align-items-center">
+            <h2 class="mb-0" style="background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Bug Detective</h2>
+            <app-animated-bug class="ms-2"></app-animated-bug>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center">
+          <app-search></app-search>
+          <div class="dropdown ms-3">
+            <button class="btn btn-outline-light border-0 rounded-circle position-relative p-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-bell fs-5"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  2
+                </span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end bg-card-custom text-white">
+              <li><a class="dropdown-item text-white" href="#">New bug reported</a></li>
+              <li><a class="dropdown-item text-white" href="#">Bug #234 updated</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="page-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
+
+

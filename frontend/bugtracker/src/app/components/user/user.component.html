@@ -1,0 +1,40 @@
+<h3>Lista użytkowników</h3>
+
+<div class="table-responsive">
+  <table class="table text-center table-striped table-hover">
+    <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Nazwa użytkownika</th>
+      <th>Email</th>
+      <th>Status</th>
+      <th>Role</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let tempUser of users">
+      <td class="align-middle">{{ tempUser.id }}</td>
+      <td class="align-middle">{{ tempUser.username }}</td>
+      <td class="align-middle">{{ tempUser.email }}</td>
+      <td class="align-middle">
+          <span class="rounded-2 px-3 py-1 text-white"
+                [ngClass]="{
+              'bg-success': tempUser.enabled,
+              'bg-danger': !tempUser.enabled
+            }">
+            {{ tempUser.enabled ? 'Aktywny' : 'Nieaktywny' }}
+          </span>
+      </td>
+      <td class="align-middle text-start">
+          <span *ngFor="let role of tempUser.roles" class="badge bg-info me-2">
+            {{ role.name?.replace('ROLE_', '') || 'User' }}
+          </span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="users.length === 0" class="alert alert-info">
+  Brak użytkowników do wyświetlenia.
+</div>

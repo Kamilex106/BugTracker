@@ -1,0 +1,15 @@
+<h2>Szczegóły zgłoszenia</h2>
+
+<div *ngIf="bugReportLog; else loading">
+  <p><strong>ID:</strong> {{ bugReportLog.id }}</p>
+  <p><strong>Komentarz:</strong> {{ bugReportLog.comment || 'Brak komentarza' }}</p>
+  <p><strong>Data:</strong> {{ bugReportLog.date || 'Brak daty' }}</p>
+  <p><strong>Status błędu:</strong> {{ bugReportLog.bugStatus?.name || 'Brak statusu' }}</p>
+  <p><strong>Zgłoszenie błędu:</strong> {{ bugReportLog.bugReport?.title || 'Brak zgłoszenia' }}</p>
+
+  <button class="btn btn-secondary" routerLink="/bug-reports">Powrót</button>
+</div>
+
+<ng-template #loading>
+  <p>Ładowanie danych...</p>
+</ng-template>
