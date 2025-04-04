@@ -17,3 +17,42 @@ Bug Tracking System is an application that enables IT teams to efficiently repor
 - **Frontend:** Angular / TypeScript
 - **Backend:** Java / Spring Boot
 - **Database:** PostgreSQL
+
+## Installation and Setup
+
+### Prerequisites
+- Node.js and npm
+- Angular CLI
+- Java JDK 21+
+- Maven
+
+### Database
+1. Navigate to the database_setup directory
+2. Create and run database container in Docker:
+```
+docker compose up
+```
+
+### Frontend
+1. Navigate to the frontend directory (frontend/bugtracker)
+2. Install dependencies:
+```
+npm install
+```
+3. Run the application:
+```
+ng serve
+```
+4. The application will be available at: `http://localhost:4200/`
+
+### Backend
+1. Navigate to the backend directory (/bugtracker)
+2. Build the project:
+```
+.\mvnw clean install
+```
+3. Run the application:
+```
+.\mvnw spring-boot:run
+```
+4. The API will be available at: `http://localhost:8080/`
