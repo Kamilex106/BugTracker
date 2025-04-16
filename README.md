@@ -59,9 +59,9 @@ ng serve
 
 
 ## Team Members:
+- **Kamil Leleniewski**  
 - **Jakub Krupicki**  
 - **Bartosz Kowalski**  
 - **Filip Maksymium**  
-- **Kamil Leleniewski**  
 - **Remigiusz Leś**   
 
