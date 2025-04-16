@@ -1,6 +1,6 @@
 # BugTracker (GROUP PROJECT)
 ## Project Description:
-Bug Tracking System is an application that enables IT teams to efficiently report, track, and manage bugs and other software issues.
+BugTracker is an application that enables IT teams to efficiently report, track, and manage bugs and other software issues.
 
 **Project is currently under development.**
 
