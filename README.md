@@ -2,7 +2,7 @@
 ## Project Description:
 Bug Tracking System is an application that enables IT teams to efficiently report, track, and manage bugs and other software issues.
 
-**Poject is currently under development.**
+**Project is currently under development.**
 
 ## Features:
 - **Issue Registration** – Ability to add new bug reports with description, priority, and category.
@@ -56,3 +56,12 @@ ng serve
 .\mvnw spring-boot:run
 ```
 4. The API will be available at: `http://localhost:8080/`
+
+
+## Team Members:
+- **Jakub Krupicki**  
+- **Bartosz Kowalski**  
+- **Filip Maksymium**  
+- **Kamil Leleniewski**  
+- **Remigiusz Leś**   
+
