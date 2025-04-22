@@ -1,6 +1,5 @@
 package com.lepszasrednia.bugtracker.repository;
 
-import com.lepszasrednia.bugtracker.entity.Category;
 import com.lepszasrednia.bugtracker.entity.Users;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -20,4 +19,7 @@ public interface UserRepository {
     List<Users> getAllUsers();
 
 
+    Optional<Users> findByOktaId(String oktaId);
+
+    List<Users> findAll();
 }

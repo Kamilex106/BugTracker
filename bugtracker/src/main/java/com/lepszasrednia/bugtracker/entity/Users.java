@@ -1,10 +1,10 @@
 package com.lepszasrednia.bugtracker.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
@@ -23,36 +23,38 @@ public class Users {
     @Column(name = "email", length = 50)
     private String email;
 
-    @Size(max = 255)
-    @Column(name = "password", length = 255)
-    private String password;
+//    @Size(max = 255)
+//    @Column(name = "password", length = 255)
+//    private String password;
+    @Column(name = "okta_id", unique = true)
+    private String oktaId;
 
     @ColumnDefault("true")
     @Column(name = "enabled")
     private Boolean enabled = false;
 
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name="users_roles",
             joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns = @JoinColumn(name="role_id"))
-    private Collection<Roles> roles;
+    private Collection<Roles> roles = new ArrayList<>();;
 
     public Users() {}
 
-    public Users(String username, String email, String password, Boolean enabled) {
+    public Users(String username, String email, String oktaId, Boolean enabled) {
         this.username = username;
         this.email = email;
-        this.password = password;
         this.enabled = enabled;
+        this.oktaId = oktaId;
     }
 
-    public Users(String username, String email, String password, Boolean enabled, Collection<Roles> roles) {
+    public Users(String username, String email, String oktaId, Boolean enabled, Collection<Roles> roles) {
         this.username = username;
         this.email = email;
-        this.password = password;
         this.enabled = enabled;
         this.roles = roles;
+        this.oktaId = oktaId;
     }
 
     public Integer getId() {
@@ -79,12 +81,12 @@ public class Users {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getOktaId() {
+        return oktaId;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setOktaId(String oktaId) {
+        this.oktaId = oktaId;
     }
 
     public Boolean getEnabled() {
@@ -100,7 +102,8 @@ public class Users {
     }
 
     public void setRoles(Collection<Roles> roles) {
-        this.roles = roles;
+
+        this.roles = roles != null ? roles : new ArrayList<>();
     }
 
     @Override
@@ -109,7 +112,7 @@ public class Users {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
+                ", oktaId='" + oktaId + '\'' +
                 ", enabled=" + enabled +
                 ", roles=" + roles +
                 '}';

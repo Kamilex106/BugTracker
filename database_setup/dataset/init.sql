@@ -3,8 +3,9 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY ,
     username VARCHAR(50) NOT NULL,
     email VARCHAR(50) UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    enabled BOOLEAN NOT NULL DEFAULT TRUE
+--    password VARCHAR(255) NOT NULL,
+    enabled BOOLEAN NOT NULL DEFAULT TRUE,
+    okta_id VARCHAR(255) NOT NULL UNIQUE
 );
 
 -- Creating the role table
@@ -43,6 +44,8 @@ CREATE TABLE bug_report (
     user_id INT REFERENCES users(id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE INDEX idx_bug_report_status ON bug_report(actual_bug_status_id);
 
 -- Creating the bug_report_log table
 CREATE TABLE bug_report_log (

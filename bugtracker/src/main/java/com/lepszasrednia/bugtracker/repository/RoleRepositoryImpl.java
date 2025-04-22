@@ -44,4 +44,17 @@ public class RoleRepositoryImpl implements RoleRepository {
     public Roles findByRoleId(Integer theRoleId) {
         return entityManager.find(Roles.class, theRoleId);
     }
+
+    @Override
+    public List<Roles> findByNameIn(List<String> oktaGroups) {
+        if (oktaGroups == null || oktaGroups.isEmpty()) {
+            return List.of();
+        }
+
+        TypedQuery<Roles> query = entityManager.createQuery(
+                "FROM Roles WHERE name IN :names", Roles.class);
+        query.setParameter("names", oktaGroups);
+
+        return query.getResultList();
+    }
 }

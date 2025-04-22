@@ -1,0 +1,119 @@
+.user-bar-modern {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background: var(--bg-medium);
+  border-radius: 10px;
+  padding: 0.7rem 1.2rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  color: var(--text-primary);
+  margin: 1.2rem auto;
+  max-width: 900px;
+  font-size: 1rem;
+}
+
+.user-bar-item {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  padding: 0.18em 0.7em;
+  border-radius: 6px;
+  background: transparent;
+  font-size: 1rem;
+  color: var(--text-primary);
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+
+.user-bar-avatar {
+  background: var(--bg-light);
+  color: var(--secondary);
+  font-size: 1.7rem;
+  padding: 0.18em 0.6em;
+}
+
+.user-bar-email {
+  color: var(--text-primary);
+  font-weight: 600;
+  background: var(--bg-light);
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-bar-id {
+  background: var(--bg-light);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.user-bar-role {
+  background: var(--secondary);
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.user-bar-status {
+  background: var(--success);
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.user-bar-lastlogin {
+  background: var(--bg-light);
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.user-bar-stats {
+  background: var(--info);
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.user-bar-stats-resolved {
+  background: var(--success);
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.btn-logout {
+  background: var(--danger);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.45rem 1.15rem;
+  font-weight: 500;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.btn-logout:hover {
+  background: #b91c1c;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.18);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 900px) {
+  .user-bar-modern {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.7rem;
+    max-width: 100vw;
+    padding: 1rem 0.4rem;
+  }
+  .user-bar-item {
+    width: 100%;
+    justify-content: flex-start;
+    font-size: 0.97rem;
+    padding: 0.18em 0.5em;
+  }
+  .btn-logout {
+    width: 100%;
+    justify-content: center;
+    margin-left: 0;
+  }
+}

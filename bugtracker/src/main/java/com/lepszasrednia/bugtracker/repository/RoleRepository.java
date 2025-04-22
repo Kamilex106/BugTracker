@@ -9,4 +9,6 @@ public interface RoleRepository {
     List<Roles> getAllRoles();
     public Roles findByRoleName(String theRoleName);
     Roles findByRoleId(Integer id);
+
+    List<Roles> findByNameIn(List<String> oktaGroups);
 }

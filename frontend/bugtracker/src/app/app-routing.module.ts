@@ -1,7 +1,35 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import {UserComponent} from './components/user/user.component';
+import {BugReportComponent} from './components/bug-report/bug-report.component';
+import {BugReportLogComponent} from './components/bug-report-log/bug-report-log.component';
+import {BugReportFormComponent} from './components/bug-report-form/bug-report-form.component';
+import {BugReportDetailsComponent} from './components/bug-report-details/bug-report-details.component';
+import { Routes } from '@angular/router';
+import { OktaCallbackComponent } from '@okta/okta-angular';
 
-const routes: Routes = [];
+import { OktaAuthGuard } from '@okta/okta-angular';
+import { ProfileComponent } from './components/profile/profile.component';
+import {RegistrationComponent} from './components/registration/registration.component'; // dostosuj ścieżkę do swojego komponentu
+
+const routes: Routes = [
+  { path: 'login/callback', component: OktaCallbackComponent },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [OktaAuthGuard]
+  },
+  {path: 'users', component: UserComponent},
+  {path: 'search/:keyword', component: BugReportComponent},
+  {path: 'bugs', component: BugReportComponent},
+  {path: 'buglogs', component: BugReportLogComponent},
+  {path: 'bugreport/add', component: BugReportFormComponent},
+  {path: 'bugdetails/:id', component: BugReportDetailsComponent},
+  {path: 'registration', component: RegistrationComponent},
+  {path: '', redirectTo: '/bugs', pathMatch: 'full'},
+  {path: '**', redirectTo: '/bugs', pathMatch: 'full'}
+];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

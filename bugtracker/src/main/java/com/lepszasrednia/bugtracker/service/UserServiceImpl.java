@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
         // assign user details to the user object
         user.setUsername(webUser.getUserName());
 //        user.setPassword(passwordEncoder.encode(webUser.getPassword()));
-        user.setPassword(webUser.getPassword());
+//        user.setPassword(webUser.getPassword());
 
         user.setRoles(Arrays.asList(roleRepository.findByRoleName(webUser.getRoleName())));
 

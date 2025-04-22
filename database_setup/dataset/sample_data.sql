@@ -1,13 +1,19 @@
 -- Inserting sample users
-INSERT INTO users (username, email, password, enabled)
+/*INSERT INTO users (username, email, password, enabled)
 VALUES
     ('john_doe', 'john@example.com', '$2a$10$RD5qrWMpsFkYai/AZZ8KweM55FhrG7UZC1.73fuHxJJyPrikB6nqq', TRUE),     --password: pass1
     ('jane_doe', 'jane@example.com', '$2a$12$gCwES.QaFnUkPElkk4y.L.n7Fpw7x/PicMxeQn0KyF7KjsYE32KYy', TRUE),     --password: pass2
     ('alice_smith', 'alice@example.com', '$2a$12$g4ToHT2RW0eNTgl9zaliU.2XfYjvqKABNS6eCKRJP9g/EJbomd4Ky', TRUE), --password: pass3
     ('bob_johnson', 'bob@example.com', '$2a$10$nrEXoiE5.qGatDiH0tSAYuI/5SKzpie/NTZ4/nW5bXtH/V8owJavy', TRUE);   --password: fun123
+*/
+INSERT INTO users (username, email, enabled, okta_id)
+VALUES
+    ('john_doe', 'john@example.com', TRUE, '101'),     --password: pass1
+    ('jane_doe', 'jane@example.com', TRUE, '102'),     --password: pass2
+    ('alice_smith', 'alice@example.com', TRUE, '103'), --password: pass3
+    ('bob_johnson', 'bob@example.com', TRUE, '104');   --password: fun123
 
-
-INSERT INTO users (username, email, password, enabled)
+/*INSERT INTO users (username, email, password, enabled)
 VALUES
     ('mark_wilson', 'mark@example.com', '$2a$10$QvfG5Wd9yyRZt1.FJxB3.eUgvD6SRnzKPL.dKsZ/D4gGqQl1ZjNPi', TRUE),     --password: mark123
     ('sarah_brown', 'sarah@example.com', '$2a$12$hT5LyJfLqWxuV1s.RhGk7.Vr/pGn7xAWoQw9Vhr1U/dKa4jDvhIHy', TRUE),   --password: sarah456
@@ -17,11 +23,13 @@ VALUES
     ('jessica_white', 'jessica@example.com', '$2a$12$FvzQvU5.TmEgEgc2NVkSbeQRRDXxV9Ry0Oe7YI3.ub0TZGc5YQh.q', TRUE), --password: jess2023
     ('ryan_taylor', 'ryan@example.com', '$2a$10$lKu8jvq9HxHQ.LYfzwVK8.1JxZf.Ppb2tKNJI2UbCkVQBSPKUXnHG', TRUE),     --password: ryan567
     ('lisa_martin', 'lisa@example.com', '$2a$12$3Xb8QYzlzK.zH.oVp5jCL.0Vb1ZZsGk2yNKaR2KQyj5WHJ0Y.VBHW', TRUE);     --password: lisa890
+*/
 
 -- Inserting sample roles
 INSERT INTO roles (name)
 VALUES
     ('ROLE_ADMIN'),
+    ('ROLE_USER'),
     ('ROLE_MONKEY');
 
 -- Assigning roles to users
@@ -33,7 +41,7 @@ VALUES
     (3, 2),
     (4, 2);
 	
-	INSERT INTO users_roles (user_id, role_id)
+/*	INSERT INTO users_roles (user_id, role_id)
 VALUES
     (5, 2),  -- mark_wilson jako ROLE_MONKEY
     (6, 2),  -- sarah_brown jako ROLE_MONKEY
@@ -44,7 +52,7 @@ VALUES
     (10, 2), -- jessica_white również jako ROLE_MONKEY
     (11, 2), -- ryan_taylor jako ROLE_MONKEY
     (12, 1); -- lisa_martin jako ROLE_ADMIN
-
+*/
 
 -- Inserting sample categories
 

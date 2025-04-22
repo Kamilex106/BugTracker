@@ -2,6 +2,7 @@ package com.lepszasrednia.bugtracker.repository;
 
 import com.lepszasrednia.bugtracker.entity.Users;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,4 +56,22 @@ public class UserRepositoryImpl implements UserRepository {
     public List<Users> getAllUsers() {
         return entityManager.createQuery("from Users", Users.class).getResultList();
     }
+
+    @Override
+    public Optional<Users> findByOktaId(String oktaId) {
+        TypedQuery<Users> query = entityManager.createQuery(
+                "FROM Users WHERE oktaId = :oktaId", Users.class);
+        query.setParameter("oktaId", oktaId);
+        try {
+            return Optional.of(query.getSingleResult());
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public List<Users> findAll() {
+        return getAllUsers();
+    }
+
 }

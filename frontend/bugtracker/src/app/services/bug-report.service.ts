@@ -15,6 +15,13 @@ export class BugReportService {
 
   constructor(private httpClient: HttpClient) { }
 
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'X-Requested-With': 'XMLHttpRequest'
+    }),
+    withCredentials: true
+  };
 
   getBugReportList(): Observable<BugReport[]> {
     // return this.httpClient.get<GetResponse>(this.baseUrl).pipe(
@@ -32,7 +39,7 @@ export class BugReportService {
     //     )
     //   ))
     // );
-    return this.httpClient.get<GetResponse>(this.baseUrl).pipe(
+    return this.httpClient.get<GetResponse>(this.baseUrl, this.httpOptions).pipe(
       map(response => response._embedded.bugReports)
     );
   }

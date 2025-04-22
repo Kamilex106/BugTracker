@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserComponent } from './components/user/user.component';
 import {RouterModule, Routes} from '@angular/router';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {UserService} from './services/user.service';
 
 import { BugReportComponent } from './components/bug-report/bug-report.component';
@@ -19,18 +19,18 @@ import {FormsModule} from '@angular/forms';
 import { BugReportFormComponent } from './components/bug-report-form/bug-report-form.component';
 import { BugReportDetailsComponent } from './components/bug-report-details/bug-report-details.component';
 
+import { OKTA_CONFIG, OktaAuthModule } from '@okta/okta-angular';
+import { OktaAuth } from '@okta/okta-auth-js';
+
+import { oktaConfig } from './okta.config';
+import { ProfileComponent } from './components/profile/profile.component';
+import { HomeComponent } from './components/home/home.component';
+import {AuthInterceptor} from './auth.interceptor';
+import { RegistrationComponent } from './components/registration/registration.component';
+
+const oktaAuth = new OktaAuth(oktaConfig);
 
 
-const routes: Routes = [
-  {path: 'users', component: UserComponent},
-  {path: 'search/:keyword', component: BugReportComponent},
-  {path: 'bugs', component: BugReportComponent},
-  {path: 'buglogs', component: BugReportLogComponent},
-  {path: 'bugreport/add', component: BugReportFormComponent},
-  {path: 'bugdetails/:id', component: BugReportDetailsComponent},
-  {path: '', redirectTo: '/bugs', pathMatch: 'full'},
-  {path: '**', redirectTo: '/bugs', pathMatch: 'full'}
-];
 
 
 @NgModule({
@@ -42,18 +42,22 @@ const routes: Routes = [
     SearchComponent,
     AnimatedBugComponent,
     BugReportFormComponent,
-    BugReportFormComponent,
     BugReportDetailsComponent,
+    ProfileComponent,
+    HomeComponent,
+    RegistrationComponent,
   ],
   imports: [
-    RouterModule.forRoot(routes),
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    OktaAuthModule
   ],
-  providers: [UserService, BugReportService, BugReportLogService],
+  providers: [UserService, BugReportService, BugReportLogService, { provide: OKTA_CONFIG, useValue: { oktaAuth } },
+    { provide: OktaAuth, useValue: oktaAuth },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
