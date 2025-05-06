@@ -1,18 +1,57 @@
 .bug-container {
   display: inline-block;
   margin-left: 8px;
+  margin-right: 20px;
+  cursor: pointer;
+  position: relative; /* bo dymek ma się odnosić do tego kontenera */
 }
 
 .bug-icon {
   font-size: 40px;
-  color: red;
-  animation: shake 0.5s ease infinite;
+  background: linear-gradient(45deg, yellow, violet, blue, cyan, yellow);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientChange 6s ease infinite;
+}
+
+@keyframes gradientChange {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Animacja trzęsienia robaczka */
+.shake {
+  animation: shake 1s ease;
 }
 
 @keyframes shake {
-  0% { transform: rotate(0); }
-  25% { transform: rotate(10deg); }
-  50% { transform: rotate(0); }
-  75% { transform: rotate(-10deg); }
-  100% { transform: rotate(0); }
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(25deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(-25deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.speech-bubble {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 300px;
+  background: white;
+  padding: 12px 16px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  font-size: 16px;
+  color: black;
+  z-index: 9999;
+  animation: fadeBubble 0.5s ease;
+}
+
+@keyframes fadeBubble {
+  0% { opacity: 0; transform: translate(-50%, -60%); }
+  100% { opacity: 1; transform: translate(-50%, -50%); }
 }

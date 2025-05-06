@@ -33,32 +33,6 @@ export class BugReportLogService {
       .pipe(map((response) => response._embedded.bugReportLogs));
   }
 
-  // bug-report-log.service.ts
-  getBugReportLogsById(id: number): Observable<BugReportLog> {
-    const url = `${this.baseUrl}/${id}`;
-    return this.httpClient.get<any>(url).pipe(
-      switchMap(log => {
-        const requests = {
-          log: of(log),
-          status: log._links?.bugStatus?.href
-            ? this.httpClient.get<BugStatus>(log._links.bugStatus.href)
-            : of(null),
-          report: log._links?.bugReport?.href
-            ? this.httpClient.get<BugReport>(log._links.bugReport.href)
-            : of(null)
-        };
-
-        return forkJoin(requests).pipe(
-          map(({log, status, report}) => ({
-            ...log,
-            bugStatus: status,
-            bugReport: report
-          }))
-        );
-      })
-    );
-  }
-
 }
 
 interface GetResponse {

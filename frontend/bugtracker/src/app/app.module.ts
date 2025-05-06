@@ -23,7 +23,6 @@ import { OKTA_CONFIG, OktaAuthModule } from '@okta/okta-angular';
 import { OktaAuth } from '@okta/okta-auth-js';
 
 import { oktaConfig } from './okta.config';
-import { ProfileComponent } from './components/profile/profile.component';
 import { HomeComponent } from './components/home/home.component';
 import {AuthInterceptor} from './auth.interceptor';
 import { RegistrationComponent } from './components/registration/registration.component';
@@ -43,7 +42,6 @@ const oktaAuth = new OktaAuth(oktaConfig);
     AnimatedBugComponent,
     BugReportFormComponent,
     BugReportDetailsComponent,
-    ProfileComponent,
     HomeComponent,
     RegistrationComponent,
   ],

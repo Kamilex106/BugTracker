@@ -40,7 +40,7 @@ export class RegistrationComponent {
         form.resetForm(); // <--- resetuje formularz po sukcesie
       },
       error => {
-        this.errorMessage = error.error?.message || 'Wystąpił błąd podczas rejestracji';
+        this.errorMessage = error.error?.message || 'An error occurred during registration';
         this.successMessage = null;
         this.isLoading = false;
       }

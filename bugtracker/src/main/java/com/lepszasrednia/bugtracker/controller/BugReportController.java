@@ -9,6 +9,9 @@ import com.lepszasrednia.bugtracker.repository.CategoryRepository;
 import com.lepszasrednia.bugtracker.repository.BugStatusRepository;
 import com.lepszasrednia.bugtracker.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -50,9 +53,14 @@ public class BugReportController {
         report.setActualStatus(actualStatus);
 
         // Set default user
-        Users defaultUser = userRepository.findByUserId(2)
-                .orElseThrow(() -> new RuntimeException("User not found with id 2"));
-        report.setUser(defaultUser);
+//        Users defaultUser = userRepository.findByUserId(2)
+//                .orElseThrow(() -> new RuntimeException("User not found with id 2"));
+//        report.setUser(defaultUser);
+
+        Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = jwt.getClaim("sub");
+        Users local_user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found with email " + email));
+        report.setUser(local_user);
 
         // Save and return
         BugReport savedBugReport = bugReportRepository.save(report);

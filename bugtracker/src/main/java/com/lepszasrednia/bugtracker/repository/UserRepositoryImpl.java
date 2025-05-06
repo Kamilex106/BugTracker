@@ -58,6 +58,18 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public Optional<Users> findByEmail(String email) {
+        TypedQuery<Users> query = entityManager.createQuery(
+                "FROM Users WHERE email = :email", Users.class);
+        query.setParameter("email", email);
+        try {
+            return Optional.of(query.getSingleResult());
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public Optional<Users> findByOktaId(String oktaId) {
         TypedQuery<Users> query = entityManager.createQuery(
                 "FROM Users WHERE oktaId = :oktaId", Users.class);

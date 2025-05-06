@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { BugReport } from '../common/bug-report';
-import {Observable, tap} from 'rxjs';
+import {forkJoin, Observable, of, switchMap, tap} from 'rxjs';
 import { map } from 'rxjs/operators';
 import {Category} from '../common/category';
 import {BugStatus} from '../common/bug-status';
+import {BugReportLog} from '../common/bug-report-log';
 
 @Injectable({
   providedIn: 'root'
@@ -100,6 +101,31 @@ export class BugReportService {
   getStatus(statusUrl: string): Observable<BugStatus> {
     // console.log("Pobieram status z:", statusUrl);
     return this.httpClient.get<BugStatus>(statusUrl);
+  }
+
+  getBugReportById(id: number): Observable<BugReportLog> {
+    const url = `${this.baseUrl}/${id}`;
+    return this.httpClient.get<any>(url).pipe(
+      switchMap(log => {
+        const requests = {
+          log: of(log),
+          status: log._links?.bugStatus?.href
+            ? this.httpClient.get<BugStatus>(log._links.bugStatus.href)
+            : of(null),
+          report: log._links?.bugReport?.href
+            ? this.httpClient.get<BugReport>(log._links.bugReport.href)
+            : of(null)
+        };
+
+        return forkJoin(requests).pipe(
+          map(({log, status, report}) => ({
+            ...log,
+            bugStatus: status,
+            bugReport: report
+          }))
+        );
+      })
+    );
   }
 }
 

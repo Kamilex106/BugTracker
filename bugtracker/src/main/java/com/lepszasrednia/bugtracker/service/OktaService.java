@@ -8,6 +8,7 @@ import com.lepszasrednia.bugtracker.entity.Users;
 import com.lepszasrednia.bugtracker.repository.RoleRepository;
 import com.lepszasrednia.bugtracker.repository.UserRepository;
 import com.lepszasrednia.bugtracker.user.WebUser;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,9 +17,12 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class OktaService {
@@ -41,6 +45,12 @@ public class OktaService {
         this.restTemplate = restTemplate;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+    }
+
+    @PostConstruct
+    public void init(){
+        syncUsers();
+        syncRolesWithOktaGroups();
     }
 
     public String registerUserInOkta(WebUser webUser) {
@@ -164,11 +174,62 @@ public class OktaService {
     public void syncRolesWithOktaGroups() {
         List<Users> users = userRepository.findAll();
 
+        Map<String, String> groupToRoleMap = new HashMap<>();
+        groupToRoleMap.put("ROLE_ADMIN", "ROLE_ADMIN");
+        groupToRoleMap.put("ROLE_USER", "ROLE_USER");
+        groupToRoleMap.put("ROLE_MONKEY", "ROLE_MONKEY");
+
         users.forEach(user -> {
             List<String> oktaGroups = getUserGroups(user.getOktaId());
-            List<Roles> roles = roleRepository.findByNameIn(oktaGroups);
-            user.setRoles(roles);
-            userRepository.save(user);
+
+            if (oktaGroups.isEmpty()) {
+                logger.warn("Brak grup Okta dla użytkownika {}", user.getOktaId());
+            }
+
+            List<String> mappedRoles = oktaGroups.stream()
+                    .map(group -> groupToRoleMap.get(group))
+                    .filter(role -> role != null)
+                    .collect(Collectors.toList());
+
+            if (!mappedRoles.isEmpty()) {
+                List<Roles> roles = roleRepository.findByNameIn(mappedRoles);
+                user.setRoles(roles);
+                userRepository.save(user);
+            }
         });
     }
+
+    @Scheduled(cron = "0 0 3 * * ?") // Codziennie o 3:00
+    public void syncUsers() {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "SSWS " + this.oktaApiToken);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<List> response = restTemplate.exchange(
+                this.oktaDomain + "/api/v1/users",
+                HttpMethod.GET,
+                entity,
+                List.class
+        );
+
+        List<Map<String, Object>> users = response.getBody();
+
+        for (Map<String, Object> user : users) {
+            if(!this.userRepository.findByOktaId((String) user.get("id")).isEmpty()){
+                continue;
+            }
+
+            Map<String, Object> profile = (Map<String, Object>) user.get("profile");
+            Users oktaUser = new Users();
+            oktaUser.setOktaId((String) user.get("id"));
+            oktaUser.setEmail((String) profile.get("email"));
+            oktaUser.setUsername((String) profile.get("login"));
+            oktaUser.setEnabled(user.get("status").equals("ACTIVE"));
+            this.userRepository.save(oktaUser);
+        }
+    }
+
 }

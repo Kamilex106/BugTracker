@@ -116,7 +116,7 @@ export class BugReportComponent implements OnInit {
           this.bug_reports = enhancedData;
         });
       },
-      error => console.error("Błąd pobierania danych:", error)
+      error => console.error("Error fetching data:", error)
     );
   }
 

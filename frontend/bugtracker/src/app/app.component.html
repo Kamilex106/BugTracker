@@ -2,7 +2,7 @@
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
     <div class="logo d-flex align-items-center">
-      <img src="assets/images/monkey.webp" alt="Bug Detective Logo" class="me-2">
+      <img src="assets/images/monkey.webp" alt="Bug Detective Logo" class="me-2" >
       <h5 class="mb-0" style="color: var(--primary);">Bug Detective</h5>
     </div>
     <nav class="sidebar-nav">
@@ -21,28 +21,26 @@
         <!--    FOR ADMINS    -->
         <li *ngIf="hasRole('admin')" class="nav-item">
           <a class="nav-link" routerLink="/users" routerLinkActive="active">
-            <i class="bi bi-people"></i> Wyswietl uzytkownikow
+            <i class="bi bi-people"></i> Display Users
           </a>
         </li>
         <!--    FOR ADMINS | USERS    -->
         <li *ngIf="hasRole('admin', 'user')" class="nav-item">
           <a class="nav-link" routerLink="/bugreport/add" routerLinkActive="active">
-            <i class="bi bi-plus-circle"></i> Dodaj zgloszenie
+            <i class="bi bi-plus-circle"></i> Add Report
           </a>
         </li>
-        <!--    TODO    -->
         <li class="nav-item">
           <a class="nav-link" routerLink="/registration" routerLinkActive="active">
-            <i class="bi bi-people"></i> Rejestracja
+            <i class="bi bi-people"></i> Registration
           </a>
         </li>
         <!--    FOR ADMINS    -->
         <li *ngIf="hasRole('admin')"  class="nav-item">
           <a class="nav-link" routerLink="/TODO" routerLinkActive="active">
-            <i class="bi bi-flag"></i> Przypisz zgloszenie
+            <i class="bi bi-flag"></i> Assign Report
           </a>
         </li>
-        <!--    TODO    -->
       </ul>
     </nav>
   </aside>
@@ -66,6 +64,7 @@
         </div>
 
         <div class="d-flex align-items-center">
+          <app-animated-bug class="ms-2"></app-animated-bug>
           <app-search></app-search>
           <div class="dropdown ms-3">
             <button class="btn btn-outline-light border-0 rounded-circle position-relative p-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">

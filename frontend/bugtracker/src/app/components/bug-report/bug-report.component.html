@@ -1,18 +1,17 @@
-<h3>Lista zgłoszonych błędów</h3>
-
+<h3>List of Reported Bugs</h3>
 <div>
   <table class="table text-center table-striped table-hover">
     <thead class="table-dark">
     <tr>
       <th>ID</th>
-      <th>Tytuł</th>
-      <th>Opis</th>
-      <th>Priorytet</th>
-      <th>Kategoria</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Priority</th>
+      <th>Category</th>
       <th>Status</th>
-      <th>Data utworzenia</th>
-      <th>Użytkownik</th>
-      <th>Akcja</th>
+      <th>Date Created</th>
+      <th>User</th>
+      <th>Action</th>
     </tr>
     </thead>
     <tbody>
@@ -30,7 +29,7 @@
             {{ tempbug.priority }}
           </span>
       </td>
-      <td class="align-middle">{{ tempbug.category?.name || 'Brak kategorii' }}</td>
+      <td class="align-middle">{{ tempbug.category?.name || 'No category' }}</td>
       <td class="align-middle">
         <span class="badge" [ngClass]="{
           'bg-warning-subtle text-warning': tempbug.actualStatus?.name === 'In Progress',
@@ -39,11 +38,11 @@
           'bg-primary-subtle text-primary': tempbug.actualStatus?.name === 'Open',
           'bg-secondary-subtle text-secondary': tempbug.actualStatus?.name === 'Closed'
         }">
-          {{ tempbug.actualStatus?.name || 'Brak statusu' }}
+          {{ tempbug.actualStatus?.name || 'No status' }}
         </span>
       </td>
       <td class="align-middle">{{ tempbug.createdAt }}</td>
-      <td class="align-middle">{{ tempbug.user ? tempbug.user.username : 'Brak' }}</td>
+      <td class="align-middle">{{ tempbug.user ? tempbug.user.username : 'None' }}</td>
       <td class="align-middle">
         <button class="btn btn-primary me-2 btn-sm" (click)="showDetails(tempbug.id)">
           <i class="bi bi-eye"></i>
@@ -58,5 +57,5 @@
 </div>
 
 <div *ngIf="bug_reports.length === 0">
-  Brak zgłoszonych błędów do wyświetlenia.
+  No bugs reported to display.
 </div>

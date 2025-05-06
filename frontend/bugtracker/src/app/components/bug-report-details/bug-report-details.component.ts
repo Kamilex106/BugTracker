@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {BugReportLogService} from '../../services/bug-report-log.service';
-import {BugReportLog} from '../../common/bug-report-log';
+import {BugReportService} from '../../services/bug-report.service';
+import {BugReport} from '../../common/bug-report';
 
 @Component({
   selector: 'app-bug-report-details',
@@ -10,26 +10,26 @@ import {BugReportLog} from '../../common/bug-report-log';
   styleUrl: './bug-report-details.component.css'
 })
 export class BugReportDetailsComponent implements OnInit {
-  bugReportLog?: BugReportLog;
+  bugReport?: BugReport;
   constructor(
     private route: ActivatedRoute,
-    private bugReportLogService: BugReportLogService
+    private bugReportService: BugReportService
   ) {}
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (!isNaN(id)) {
-      this.loadBugReportLog(id);
+      this.loadBugReport(id);
     }
   }
 
-  loadBugReportLog(id: number): void {
-    this.bugReportLogService.getBugReportLogsById(id).subscribe({
+  loadBugReport(id: number): void {
+    this.bugReportService.getBugReportById(id).subscribe({
       next: (data) => {
-        this.bugReportLog = data;
+        this.bugReport = data;
       },
       error: (err) => {
-        console.error('Błąd podczas pobierania zgłoszenia:', err);
+        console.error('Error fetching report:', err);
       }
     });
   }

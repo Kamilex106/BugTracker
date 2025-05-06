@@ -114,11 +114,36 @@ body {
   padding: 1.5rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
 }
 
 .sidebar .logo img {
-  max-height: 40px;
+  height: 40px;
+  width: 42px;
+  transform: scale(1.9) translateY(4px);
+  object-fit: cover;
 }
+
+.sidebar .logo h5 {
+  font-size: 1.5rem;
+  margin: 0;
+  line-height: 1.2;
+  background: linear-gradient(270deg, #3b82f6, #6366f1, #9333ea, #3b82f6);
+  background-size: 600% 600%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: animateGradient 5s ease infinite;
+}
+
+@keyframes animateGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 
 .sidebar-nav {
   padding: 1rem 0;

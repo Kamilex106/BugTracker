@@ -18,6 +18,7 @@ public interface UserRepository {
 
     List<Users> getAllUsers();
 
+    Optional<Users> findByEmail(String email);
 
     Optional<Users> findByOktaId(String oktaId);
 
