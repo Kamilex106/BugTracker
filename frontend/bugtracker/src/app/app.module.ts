@@ -15,7 +15,7 @@ import {BugReportLogService} from './services/bug-report-log.service';
 import {BugReportService} from './services/bug-report.service';
 import { SearchComponent } from './components/search/search.component';
 import { AnimatedBugComponent } from './components/animated-bug/animated-bug.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { BugReportFormComponent } from './components/bug-report-form/bug-report-form.component';
 import { BugReportDetailsComponent } from './components/bug-report-details/bug-report-details.component';
 
@@ -26,6 +26,8 @@ import { oktaConfig } from './okta.config';
 import { HomeComponent } from './components/home/home.component';
 import {AuthInterceptor} from './auth.interceptor';
 import { RegistrationComponent } from './components/registration/registration.component';
+import {BugAssignmentComponent} from './components/bug-assignment/bug-assignment.component';
+// import {BugAssignmentService} from './services/bug-assignment.service';
 
 const oktaAuth = new OktaAuth(oktaConfig);
 
@@ -44,6 +46,7 @@ const oktaAuth = new OktaAuth(oktaConfig);
     BugReportDetailsComponent,
     HomeComponent,
     RegistrationComponent,
+    BugAssignmentComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +54,9 @@ const oktaAuth = new OktaAuth(oktaConfig);
     NgbModule,
     HttpClientModule,
     FormsModule,
-    OktaAuthModule
+    OktaAuthModule,
+    ReactiveFormsModule,
+
   ],
   providers: [UserService, BugReportService, BugReportLogService, { provide: OKTA_CONFIG, useValue: { oktaAuth } },
     { provide: OktaAuth, useValue: oktaAuth },

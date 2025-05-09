@@ -10,9 +10,10 @@ import { OktaCallbackComponent } from '@okta/okta-angular';
 
 import { OktaAuthGuard } from '@okta/okta-angular';
 import {RegistrationComponent} from './components/registration/registration.component';
+import {BugAssignmentComponent} from './components/bug-assignment/bug-assignment.component';
 
 const routes: Routes = [
-  { path: 'login/callback', component: OktaCallbackComponent },
+  {path: 'login/callback', component: OktaCallbackComponent },
   {path: 'users', component: UserComponent},
   {path: 'search/:keyword', component: BugReportComponent},
   {path: 'bugs', component: BugReportComponent},
@@ -20,6 +21,7 @@ const routes: Routes = [
   {path: 'bugreport/add', component: BugReportFormComponent},
   {path: 'bugdetails/:id', component: BugReportDetailsComponent},
   {path: 'registration', component: RegistrationComponent},
+  {path: 'app-bug-assignment', component: BugAssignmentComponent},
   {path: '', redirectTo: '/bugs', pathMatch: 'full'},
   {path: '**', redirectTo: '/bugs', pathMatch: 'full'}
 ];

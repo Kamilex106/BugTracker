@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -25,6 +26,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.jwt.Jwt;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,7 +54,8 @@ public class SecurityConfig {
                                 "/bugStatuses",
                                 "/categories"
                         ).permitAll()
-                        .requestMatchers("/users/all", "/user/me").hasAuthority("ROLE_USER")
+                        .requestMatchers("/user/me").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                        .requestMatchers("/users/all").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
@@ -96,9 +99,11 @@ public class SecurityConfig {
                 throw e;
             }
 
-            return user.getRoles().stream()
+            List<GrantedAuthority> authorities = user.getRoles().stream()
                     .map(role -> new SimpleGrantedAuthority(role.getName()))
                     .collect(Collectors.toList());
+
+            return authorities;
         });
 
         return converter;

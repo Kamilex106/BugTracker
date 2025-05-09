@@ -1,0 +1,29 @@
+/* Opcjonalne style dla komponentu bug-assignment */
+form {
+  margin-bottom: 1em;
+}
+form div {
+  margin: 0.5em 0;
+}
+label {
+  margin-right: 0.5em;
+  font-weight: bold;
+}
+select {
+  margin-right: 1em;
+}
+button {
+  cursor: pointer;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+th {
+  background: #f9f9f9;
+  text-align: left;
+}
