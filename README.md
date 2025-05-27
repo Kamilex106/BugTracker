@@ -10,7 +10,7 @@ BugTracker is an application that enables IT teams to efficiently report, track,
 - **Status Tracking** – Monitoring issue statuses (e.g., New, In Progress, Resolved, Closed).
 - **Issue Prioritization** – Marking issues with priorities (e.g., Low, Medium, High, Critical).
 - **Change History** – Tracking changes in the issue, e.g., status change, description edit.
-- **Filtering and Searching** – Advanced options for filtering and searching issues.
+- **Searching** – Advanced options for searching issues.
 - **Registration/Login** - Creating a new user with appropriate roles and encrypted password in the database, as well as logging in before submitting a report.
 
 ## Technologies:
@@ -62,6 +62,6 @@ ng serve
 - **Kamil Leleniewski**  
 - **Jakub Krupicki**  
 - **Bartosz Kowalski**  
-- **Filip Maksymium**  
+- **Filip Maksymiuk**  
 - **Remigiusz Leś**   
 
