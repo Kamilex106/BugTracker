@@ -1,23 +1,43 @@
-<div class="user-bar-modern" *ngIf="isAuthenticated">
-  <span class="user-bar-item user-bar-email" [title]="userEmail">
-    <i class="bi bi-person-circle me-1"></i>
-    {{ userEmail }}
-  </span>
-  <span class="user-bar-item user-bar-role">
-    <i class="bi bi-person-badge me-1"></i>
-    ID: <b>{{ userId }}</b>
-  </span>
-  <span class="user-bar-item user-bar-stats-resolved">
-    <i class="bi bi-clipboard-check me-1"></i>
-    Resolved: <b>0</b>/<b>3</b>
-  </span>
-  <button class="btn btn-logout user-bar-item" (click)="logout()">
-    <i class="bi bi-box-arrow-right me-1"></i>Logout
-  </button>
-</div>
-<div *ngIf="!isAuthenticated" class="d-flex align-items-center">
-  <button class="btn btn-primary btn-login" (click)="login()">
-    <i class="bi bi-shield-lock me-2"></i>Login
-  </button>
+<!-- User Bar for Authenticated Users -->
+<div class="user-bar-container" *ngIf="isAuthenticated">
+  <div class="user-bar-modern">
+    <!-- Email Section -->
+    <div class="user-email-section">
+      <span class="user-bar-item user-bar-email" [title]="userEmail">
+        <i class="bi bi-person-circle"></i>
+        <span class="email-text">{{ userEmail }}</span>
+      </span>
+    </div>
+
+    <!-- Stats Section - Mobile First -->
+    <div class="stats-section">
+      <span class="user-bar-item user-bar-stats-closed">
+        <i class="bi bi-check-circle"></i>
+        <span class="stat-number">{{ userStats.closedBugs }}</span>
+        <span class="stat-label">Closed</span>
+      </span>
+
+      <span class="user-bar-item user-bar-stats-open">
+        <i class="bi bi-exclamation-circle"></i>
+        <span class="stat-number">{{ userStats.openBugs }}</span>
+        <span class="stat-label">Open</span>
+      </span>
+    </div>
+
+    <!-- Logout Button -->
+    <div class="logout-section">
+      <button class="btn-logout" (click)="logout()" [title]="'Logout from ' + userEmail">
+        <i class="bi bi-box-arrow-right"></i>
+        <span class="logout-text">Logout</span>
+      </button>
+    </div>
+  </div>
 </div>
 
+<!-- Login Button for Non-Authenticated Users -->
+<div class="login-container" *ngIf="!isAuthenticated">
+  <button class="btn-login" (click)="login()" title="Login to access your account">
+    <i class="bi bi-shield-lock"></i>
+    <span>Login</span>
+  </button>
+</div>

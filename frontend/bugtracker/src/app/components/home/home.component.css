@@ -1,119 +1,254 @@
+/* Container główny - dopasowany do header */
+.user-bar-container {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  height: 70px;
+  display: flex;
+  align-items: center;
+}
+
 .user-bar-modern {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  background: var(--bg-medium);
-  border-radius: 10px;
-  padding: 0.7rem 1.2rem;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  gap: 0.75rem;
+  background: transparent;
+  border-radius: 0;
+  padding: 0 1rem;
   color: var(--text-primary);
-  margin: 1.2rem auto;
-  max-width: 900px;
-  font-size: 1rem;
+  font-size: 0.85rem;
+  height: 100%;
+  width: 100%;
 }
 
+/* Sekcje */
+.user-email-section {
+  flex-shrink: 0;
+}
+
+.stats-section {
+  display: flex;
+  gap: 0.5rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.logout-section {
+  flex-shrink: 0;
+}
+
+/* Podstawowe elementy - reagują na motyw */
 .user-bar-item {
   display: flex;
   align-items: center;
+  gap: 0.4rem;
   font-weight: 500;
-  padding: 0.18em 0.7em;
+  padding: 0.4rem 0.6rem;
   border-radius: 6px;
-  background: transparent;
-  font-size: 1rem;
-  color: var(--text-primary);
-  transition: background 0.2s, color 0.2s;
-  white-space: nowrap;
-}
-
-.user-bar-avatar {
   background: var(--bg-light);
-  color: var(--secondary);
-  font-size: 1.7rem;
-  padding: 0.18em 0.6em;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  min-height: 32px;
+  border: 1px solid var(--border-color);
+  font-size: 0.8rem;
+  backdrop-filter: blur(5px);
 }
 
+.user-bar-item:hover {
+  background: var(--bg-medium);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.user-bar-item i {
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  color: var(--text-secondary);
+}
+
+/* Email styling - ZOSTAW KOLOROWE */
 .user-bar-email {
-  color: var(--text-primary);
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  color: white;
   font-weight: 600;
-  background: var(--bg-light);
-  max-width: 180px;
+  border: none;
+}
+
+.email-text {
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 150px;
+  font-size: 0.75rem;
 }
 
-.user-bar-id {
+/* Stats styling - REAGUJE NA MOTYW */
+.stats-section .user-bar-item {
+  flex-direction: column;
+  text-align: center;
+  padding: 0.3rem 0.4rem;
+  gap: 0.1rem;
+  min-width: 50px;
   background: var(--bg-light);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.stat-number {
+  font-weight: 700;
+  font-size: 0.85rem;
+  line-height: 1;
+  color: var(--text-primary);
+}
+
+.stat-label {
+  font-size: 0.6rem;
+  opacity: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  line-height: 1;
   color: var(--text-muted);
-  font-size: 0.95rem;
 }
 
-.user-bar-role {
-  background: var(--secondary);
-  color: #fff;
-  font-size: 0.95rem;
-}
-
-.user-bar-status {
-  background: var(--success);
-  color: #fff;
-  font-size: 0.95rem;
-}
-
-.user-bar-lastlogin {
-  background: var(--bg-light);
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-}
-
-.user-bar-stats {
-  background: var(--info);
-  color: #fff;
-  font-size: 0.95rem;
-}
-
-.user-bar-stats-resolved {
-  background: var(--success);
-  color: #fff;
-  font-size: 0.95rem;
-}
-
-.btn-logout {
-  background: var(--danger);
-  color: #fff;
+/* Stats kolorowe - ZOSTAW */
+.user-bar-stats-closed {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
   border: none;
-  border-radius: 8px;
-  padding: 0.45rem 1.15rem;
-  font-weight: 500;
-  font-size: 1rem;
+}
+
+.user-bar-stats-open {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  border: none;
+}
+
+/* Logout button - ZOSTAW KOLOROWY */
+.btn-logout {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  font-weight: 600;
+  font-size: 0.75rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
   display: flex;
   align-items: center;
-  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  gap: 0.3rem;
+  transition: all 0.2s ease;
+  min-height: 32px;
 }
 
 .btn-logout:hover {
-  background: #b91c1c;
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.18);
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
 }
 
-@media (max-width: 900px) {
+/* Login container - dla niezalogowanych */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70px;
+  padding: 0 1rem;
+}
+
+.btn-login {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.3);
+}
+
+.btn-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+}
+
+/* Responsive dla małych ekranów */
+@media (max-width: 768px) {
+  .user-bar-modern {
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+  }
+
+  .stats-section {
+    gap: 0.3rem;
+  }
+
+  .user-bar-item {
+    padding: 0.3rem 0.4rem;
+    font-size: 0.75rem;
+    min-height: 28px;
+  }
+
+  .email-text {
+    max-width: 120px;
+    font-size: 0.7rem;
+  }
+
+  .stat-number {
+    font-size: 0.8rem;
+  }
+
+  .stat-label {
+    font-size: 0.55rem;
+  }
+
+  .btn-logout {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.7rem;
+  }
+
+  .logout-text {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
   .user-bar-modern {
     flex-direction: column;
-    align-items: stretch;
-    gap: 0.7rem;
-    max-width: 100vw;
-    padding: 1rem 0.4rem;
+    height: auto;
+    padding: 0.5rem;
+    gap: 0.3rem;
   }
-  .user-bar-item {
+
+  .user-bar-container {
+    height: auto;
+    min-height: 70px;
+  }
+
+  .stats-section {
     width: 100%;
-    justify-content: flex-start;
-    font-size: 0.97rem;
-    padding: 0.18em 0.5em;
+    justify-content: space-around;
   }
+
+  .logout-section {
+    width: 100%;
+  }
+
   .btn-logout {
     width: 100%;
     justify-content: center;
-    margin-left: 0;
+  }
+}
+
+/* Hover effects tylko na desktop */
+@media (hover: hover) {
+  .user-bar-item:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
   }
 }

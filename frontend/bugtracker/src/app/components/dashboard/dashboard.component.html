@@ -1,0 +1,214 @@
+<div class="container-fluid py-4">
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="dashboard-title">Dashboard</h2>
+      </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+      <div class="col-md-4 mb-3">
+        <div class="card h-100">
+          <div class="card-body d-flex align-items-center">
+            <div class="rounded-circle p-3 bg-light me-3">
+              <i class="bi bi-bug fs-3 text-primary"></i>
+            </div>
+            <div>
+              <h6 class="text-muted mb-1">Total Tickets</h6>
+              <h2 class="mb-0 fast-count" style="--num-value: 0; --target-value: {{ bugSummary.total }}"></h2>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <div class="card h-100">
+          <div class="card-body d-flex align-items-center">
+            <div class="rounded-circle p-3 bg-light me-3">
+              <i class="bi bi-exclamation-triangle fs-3 text-warning"></i>
+            </div>
+            <div>
+              <h6 class="text-muted mb-1">Open Tickets</h6>
+              <h2 class="mb-0 fast-count" style="--num-value: 0; --target-value: {{ bugSummary.open }}"></h2>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <div class="card h-100">
+          <div class="card-body d-flex align-items-center">
+            <div class="rounded-circle p-3 bg-light me-3">
+              <i class="bi bi-check-circle fs-3 text-success"></i>
+            </div>
+            <div>
+              <h6 class="text-muted mb-1">Closed Tickets</h6>
+              <h2 class="mb-0 fast-count" style="--num-value: 0; --target-value: {{ bugSummary.closed }}"></h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status and Priority -->
+    <div class="row mb-4">
+      <div class="col-lg-6 mb-3">
+        <div class="card h-100">
+          <div class="card-header bg-transparent">
+            <h5 class="mb-0">Tickets by Status</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-6 col-lg-3 mb-4">
+                <div class="status-circle">
+                  <div class="status-content">
+                    <div class="fast-count" style="--num-value: 0; --target-value: {{ bugSummary.inProgress }}"></div>
+                    <div class="status-label">In Progress</div>
+                  </div>
+                  <svg class="status-svg" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="#e9ecef" stroke-width="10" />
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r="40"
+                      fill="none"
+                      stroke="#0dcaf0"
+                      stroke-width="10"
+                      class="animated-circle"
+                      style="--dash-value: {{ getCircleStrokeDashValue(bugSummary.inProgress) }}"
+                      transform="rotate(-90 50 50)"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+              <div class="col-6 col-lg-3 mb-4">
+                <div class="status-circle">
+                  <div class="status-content">
+                    <div class="fast-count" style="--num-value: 0; --target-value: {{ bugSummary.open }}"></div>
+                    <div class="status-label">Open</div>
+                  </div>
+                  <svg class="status-svg" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="#e9ecef" stroke-width="10" />
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r="40"
+                      fill="none"
+                      stroke="#0d6efd"
+                      stroke-width="10"
+                      class="animated-circle"
+                      style="--dash-value: {{ getCircleStrokeDashValue(bugSummary.open) }}"
+                      transform="rotate(-90 50 50)"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+              <div class="col-6 col-lg-3 mb-4">
+                <div class="status-circle">
+                  <div class="status-content">
+                    <div class="fast-count" style="--num-value: 0; --target-value: {{ bugSummary.resolved }}"></div>
+                    <div class="status-label">Resolved</div>
+                  </div>
+                  <svg class="status-svg" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="#e9ecef" stroke-width="10" />
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r="40"
+                      fill="none"
+                      stroke="#20c997"
+                      stroke-width="10"
+                      class="animated-circle"
+                      style="--dash-value: {{ getCircleStrokeDashValue(bugSummary.resolved) }}"
+                      transform="rotate(-90 50 50)"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+              <div class="col-6 col-lg-3 mb-4">
+                <div class="status-circle">
+                  <div class="status-content">
+                    <div class="fast-count" style="--num-value: 0; --target-value: {{ bugSummary.closed }}"></div>
+                    <div class="status-label">Closed</div>
+                  </div>
+                  <svg class="status-svg" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="#e9ecef" stroke-width="10" />
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r="40"
+                      fill="none"
+                      stroke="#198754"
+                      stroke-width="10"
+                      class="animated-circle"
+                      style="--dash-value: {{ getCircleStrokeDashValue(bugSummary.closed) }}"
+                      transform="rotate(-90 50 50)"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 mb-3">
+        <div class="card h-100">
+          <div class="card-header bg-transparent">
+            <h5 class="mb-0">Tickets by Priority</h5>
+          </div>
+          <div class="card-body">
+            <div class="mb-4">
+              <div class="d-flex justify-content-between mb-1">
+                <span>Critical</span>
+                <span class="fast-count" style="--num-value: 0; --target-value: {{ bugSummary.critical }}; font-size: 1rem;"></span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar bg-danger" style="--percent: {{ getPercentage(bugSummary.critical) }}%"></div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <div class="d-flex justify-content-between mb-1">
+                <span>High</span>
+                <span class="fast-count" style="--num-value: 0; --target-value: {{ bugSummary.high }}; font-size: 1rem;"></span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar bg-warning" style="--percent: {{ getPercentage(bugSummary.high) }}%"></div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <div class="d-flex justify-content-between mb-1">
+                <span>Medium</span>
+                <span class="fast-count" style="--num-value: 0; --target-value: {{ bugSummary.medium }}; font-size: 1rem;"></span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar bg-primary" style="--percent: {{ getPercentage(bugSummary.medium) }}%"></div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <div class="d-flex justify-content-between mb-1">
+                <span>Low</span>
+                <span class="fast-count" style="--num-value: 0; --target-value: {{ bugSummary.low }}; font-size: 1rem;"></span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar bg-success" style="--percent: {{ getPercentage(bugSummary.low) }}%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+
+
+

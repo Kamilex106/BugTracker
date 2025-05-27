@@ -1,0 +1,48 @@
+.logo-sidebar-link {
+  text-decoration: none;
+}
+
+.logo-sidebar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+.monkey-icon {
+  width: 48px;
+  height: 48px;
+  transform: scale(1.8) translateY(2px);;
+  transform-origin: center;
+  animation: monkeyColors 6s infinite ease-in-out;
+}
+
+@keyframes monkeyColors {
+  0%   { filter: hue-rotate(0deg); }
+  20%  { filter: hue-rotate(290deg); }
+  40%  { filter: hue-rotate(200deg); }
+  60%  { filter: hue-rotate(160deg); }
+  80%  { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(0deg); }
+}
+
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(45deg, yellow, violet, blue, cyan, yellow);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientChange 6s ease infinite;
+  white-space: nowrap;
+}
+
+@keyframes gradientChange {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}

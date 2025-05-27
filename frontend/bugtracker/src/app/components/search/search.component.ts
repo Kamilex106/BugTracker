@@ -22,8 +22,11 @@ export class SearchComponent implements OnInit{
   //   this.router.navigateByUrl(`/search/${value}`)
   // }
   doSearch(value: string) {
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/search', value]);
-    });
+    console.log(`Searching for: ${value}`);
+    if (value.trim()) {
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/search', value.trim()]);
+      });
+    }
   }
 }

@@ -62,3 +62,11 @@ CREATE TABLE bug_assignment (
     bug_report_id INT REFERENCES bug_report(id) ON DELETE CASCADE,
     employee_id INT REFERENCES users(id)
 );
+
+CREATE TABLE bug_report_comment (
+    id SERIAL PRIMARY KEY,
+    user_id integer NOT NULL REFERENCES public.users(id),
+    bug_report_id integer NOT NULL REFERENCES public.bug_report(id),
+    comment text NOT NULL,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

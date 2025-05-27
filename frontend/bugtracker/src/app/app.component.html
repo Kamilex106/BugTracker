@@ -1,15 +1,22 @@
 <div class="app-container">
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
-    <div class="logo d-flex align-items-center">
-      <img src="assets/images/monkey.webp" alt="Bug Detective Logo" class="me-2" >
-      <h5 class="mb-0" style="color: var(--primary);">Bug Detective</h5>
-    </div>
+    <logo></logo>
     <nav class="sidebar-nav">
       <ul class="nav flex-column">
         <li class="nav-item">
+          <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
+            <i class="bi bi-bar-chart"></i> Dashboard
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" routerLink="/bugs" routerLinkActive="active">
             <i class="bi bi-bug"></i> Bug Report
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/assigned-bugs" routerLinkActive="active">
+            <i class="bi bi-person-check"></i> Assigned Bugs
           </a>
         </li>
         <li class="nav-item">
@@ -66,18 +73,7 @@
         <div class="d-flex align-items-center">
           <app-animated-bug class="ms-2"></app-animated-bug>
           <app-search></app-search>
-          <div class="dropdown ms-3">
-            <button class="btn btn-outline-light border-0 rounded-circle position-relative p-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-bell fs-5"></i>
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                  2
-                </span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end bg-card-custom text-white">
-              <li><a class="dropdown-item text-white" href="#">New bug reported</a></li>
-              <li><a class="dropdown-item text-white" href="#">Bug #234 updated</a></li>
-            </ul>
-          </div>
+          <app-theme-toggle class="ms-3"></app-theme-toggle>
         </div>
       </div>
     </header>
@@ -88,5 +84,3 @@
     </main>
   </div>
 </div>
-
-

@@ -1,61 +1,64 @@
-<h3>List of Reported Bugs</h3>
-<div>
-  <table class="table text-center table-striped table-hover">
-    <thead class="table-dark">
-    <tr>
-      <th>ID</th>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Priority</th>
-      <th>Category</th>
-      <th>Status</th>
-      <th>Date Created</th>
-      <th>User</th>
-      <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let tempbug of bug_reports">
-      <td class="align-middle">{{ tempbug.id }}</td>
-      <td class="align-middle">{{ tempbug.title }}</td>
-      <td class="align-middle text-start">{{ tempbug.description }}</td>
-      <td class="align-middle">
-          <span class="badge" [ngClass]="{
-            'bg-danger-subtle text-danger': tempbug.priority === 'Critical',
-            'bg-warning-subtle text-warning': tempbug.priority === 'High',
-            'bg-primary-subtle text-primary': tempbug.priority === 'Medium',
-            'bg-success-subtle text-success': tempbug.priority === 'Low'
-          }">
-            {{ tempbug.priority }}
-          </span>
-      </td>
-      <td class="align-middle">{{ tempbug.category?.name || 'No category' }}</td>
-      <td class="align-middle">
-        <span class="badge" [ngClass]="{
-          'bg-warning-subtle text-warning': tempbug.actualStatus?.name === 'In Progress',
-          'bg-success-subtle text-success': tempbug.actualStatus?.name === 'Done',
-          'bg-info-subtle text-info': tempbug.actualStatus?.name === 'Resolved',
-          'bg-primary-subtle text-primary': tempbug.actualStatus?.name === 'Open',
-          'bg-secondary-subtle text-secondary': tempbug.actualStatus?.name === 'Closed'
-        }">
-          {{ tempbug.actualStatus?.name || 'No status' }}
-        </span>
-      </td>
-      <td class="align-middle">{{ tempbug.createdAt }}</td>
-      <td class="align-middle">{{ tempbug.user ? tempbug.user.username : 'None' }}</td>
-      <td class="align-middle">
-        <button class="btn btn-primary me-2 btn-sm" (click)="showDetails(tempbug.id)">
-          <i class="bi bi-eye"></i>
-        </button>
-        <button class="btn btn-secondary btn-sm" (click)="editBug(tempbug.id)">
-          <i class="bi bi-pencil"></i>
-        </button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+<div class="bug-reports-container">
+  <div class="actions-section">
+  <h2 class="page-title">Bug Reports</h2>
 
-<div *ngIf="bug_reports.length === 0">
-  No bugs reported to display.
+  <!-- Add New Bug Report Button -->
+
+    <button class="btn-primary" routerLink="/bugreport/add">
+      Add New Bug Report
+    </button>
+  </div>
+
+  <!-- Bug Reports Table -->
+  <div class="table-container">
+    <table class="bug-reports-table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Priority</th>
+        <th>Category</th>
+        <th>Status</th>
+        <th>Date Created</th>
+        <th>User</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let tempbug of bug_reports_paginated" class="table-row">
+        <td>{{ tempbug.id }}</td>
+        <td class="title-cell">{{ tempbug.title }}</td>
+        <td class="description-cell">{{ tempbug.description }}</td>
+        <td>
+            <span class="priority-badge" [ngClass]="getPriorityClass(tempbug.priority)">
+              {{ tempbug.priority }}
+            </span>
+        </td>
+        <td>{{ tempbug.category?.name || 'No category' }}</td>
+        <td>
+            <span class="status-badge" [ngClass]="getStatusClass(tempbug.actualStatus?.name)">
+              {{ tempbug.actualStatus?.name || 'No status' }}
+            </span>
+        </td>
+        <td class="date-cell">{{ tempbug.createdAt | date:'short' }}</td>
+        <td>{{ tempbug.user ? tempbug.user.username : 'None' }}</td>
+        <td>
+          <button class="btn-view" [routerLink]="['/bugdetails/', tempbug.id]">
+            View Details
+          </button>
+
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Empty State -  -->
+  <div *ngIf="bug_reports_paginated?.length === 0" class="empty-state">
+    <p>No bug reports found.</p>
+    <button class="btn-primary" routerLink="/bugreport/add">
+      Create First Bug Report
+    </button>
+  </div>
 </div>

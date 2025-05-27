@@ -1,0 +1,375 @@
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  color: var(--text-primary);
+}
+
+/* Form styling */
+form {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: var(--shadow-lg);
+  transition: all 0.3s ease;
+}
+
+form:hover {
+  border-color: var(--border-hover);
+}
+
+/* Form title */
+.form-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+  text-align: center;
+  position: relative;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.form-title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: 2px;
+}
+
+/* Form field groups */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+/* Labels */
+form label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  display: block;
+  transition: color 0.3s ease;
+}
+
+/* Input fields */
+form input,
+form textarea,
+form select {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  width: 100%;
+  transition: all 0.3s ease;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+/* Focus states */
+form input:focus,
+form textarea:focus,
+form select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+/* Hover effects for form fields */
+form input:hover,
+form textarea:hover,
+form select:hover {
+  border-color: var(--border-hover);
+}
+
+/* Invalid states */
+form input.ng-invalid.ng-touched,
+form textarea.ng-invalid.ng-touched,
+form select.ng-invalid.ng-touched {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+/* Valid states */
+form input.ng-valid.ng-touched,
+form textarea.ng-valid.ng-touched,
+form select.ng-valid.ng-touched {
+  border-color: var(--success);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+/* Textarea specific */
+form textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Select specific */
+form select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+/* Light theme select arrow */
+.theme-light form select {
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23475569' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+}
+
+/* Disabled select styling */
+form select:disabled {
+  background-color: var(--bg-light);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  border-color: var(--border-color);
+  opacity: 0.7;
+}
+
+/* Placeholder styling */
+form input::placeholder,
+form textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+/* Submit button */
+form button {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  width: 100%;
+  margin-top: 1rem;
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+}
+
+form button:hover {
+  background: linear-gradient(135deg, var(--primary-hover) 0%, #6d28d9 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
+}
+
+form button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+}
+
+form button:disabled {
+  background: var(--text-muted);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.6;
+}
+
+/* Alert messages */
+.alert {
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  border: 1px solid;
+  transition: all 0.3s ease;
+}
+
+.alert.success {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.2));
+  color: var(--success);
+  border-color: var(--success);
+}
+
+.alert.error {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.2));
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.alert.warning {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.2));
+  color: var(--warning);
+  border-color: var(--warning);
+}
+
+.alert.info {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.2));
+  color: var(--info);
+  border-color: var(--info);
+}
+
+/* Field error messages */
+.field-error {
+  color: var(--danger);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.field-error::before {
+  content: "!";
+  background: var(--danger);
+  color: white;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.75rem;
+}
+
+/* Field success messages */
+.field-success {
+  color: var(--success);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.field-success::before {
+  content: "✓";
+  background: var(--success);
+  color: white;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.75rem;
+}
+
+/* Checkbox and radio styling */
+form input[type="checkbox"],
+form input[type="radio"] {
+  width: auto;
+  margin-right: 0.5rem;
+  accent-color: var(--primary);
+}
+
+/* Form section dividers */
+.form-section {
+  border-top: 1px solid var(--border-color);
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.form-section:first-child {
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .form-container {
+    padding: 1rem;
+  }
+
+  form {
+    padding: 1.5rem;
+  }
+
+  .form-title {
+    font-size: 1.75rem;
+  }
+
+  form input,
+  form textarea,
+  form select {
+    padding: 0.6rem 0.8rem;
+  }
+
+  form button {
+    padding: 0.75rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-container {
+    padding: 0.75rem;
+  }
+
+  form {
+    padding: 1rem;
+  }
+
+  .form-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* Loading state for forms */
+.form-loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.form-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-color);
+  border-top: 3px solid var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Dark theme specific adjustments */
+@media (prefers-color-scheme: dark) {
+  form input:-webkit-autofill,
+  form input:-webkit-autofill:hover,
+  form input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px var(--card-bg) inset;
+    -webkit-text-fill-color: var(--text-primary);
+  }
+}
+
+/* Enhanced focus indicators for accessibility */
+form input:focus-visible,
+form textarea:focus-visible,
+form select:focus-visible,
+form button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}

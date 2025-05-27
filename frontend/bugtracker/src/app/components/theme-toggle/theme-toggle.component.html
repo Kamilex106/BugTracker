@@ -1,0 +1,9 @@
+<button
+  class="theme-toggle-btn"
+  (click)="toggleTheme()"
+  [attr.aria-label]="(currentTheme$ | async) === 'dark' ? 'Przełącz na tryb jasny' : 'Przełącz na tryb ciemny'"
+>
+  <i class="bi"
+     [class.bi-moon-stars]="(currentTheme$ | async) === 'light'"
+     [class.bi-sun]="(currentTheme$ | async) === 'dark'"></i>
+</button>

@@ -232,4 +232,57 @@ public class OktaService {
         }
     }
 
+    public void deleteUserFromOkta(String oktaUserId) {
+        // najpierw dezaktywuj użytkownika
+        deactivateUserInOkta(oktaUserId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "SSWS " + oktaApiToken);
+
+        String url = oktaDomain + "/api/v1/users/" + oktaUserId;
+
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        try {
+            restTemplate.exchange(url, HttpMethod.DELETE, entity, Void.class);
+            logger.info("Użytkownik Okta o ID {} został usunięty", oktaUserId);
+        } catch (HttpClientErrorException e) {
+            logger.error("Błąd usuwania użytkownika Okta o ID {}: {}", oktaUserId, e.getMessage());
+            throw new RuntimeException("Nie udało się usunąć użytkownika z Okta: " + e.getMessage(), e);
+        }
+    }
+
+    public void deactivateUserInOkta(String oktaUserId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "SSWS " + oktaApiToken);
+
+        String url = oktaDomain + "/api/v1/users/" + oktaUserId + "/lifecycle/deactivate";
+
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        try {
+            restTemplate.exchange(url, HttpMethod.POST, entity, Void.class);
+            logger.info("Użytkownik Okta o ID {} został dezaktywowany", oktaUserId);
+        } catch (HttpClientErrorException e) {
+            logger.error("Błąd dezaktywacji użytkownika Okta o ID {}: {}", oktaUserId, e.getMessage());
+            throw new RuntimeException("Nie udało się dezaktywować użytkownika w Okta: " + e.getMessage(), e);
+        }
+    }
+
+    public void activateUser(String oktaUserId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "SSWS " + oktaApiToken);
+
+        String url = oktaDomain + "/api/v1/users/" + oktaUserId + "/lifecycle/activate?sendEmail=true";
+
+        restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<>(headers), Void.class);
+        logger.info("Okta user {} activated with email", oktaUserId);
+    }
+
+
+    public void deactivateUser(String oktaUserId) {
+        deactivateUserInOkta(oktaUserId);   // już istniejąca metoda
+    }
+
+
 }

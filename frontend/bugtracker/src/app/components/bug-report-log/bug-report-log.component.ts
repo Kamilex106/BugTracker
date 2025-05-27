@@ -20,17 +20,6 @@ export class BugReportLogComponent implements OnInit {
     this.listBugReportLogs();
   }
 
-  // listBugReportLogs() {
-  //   this.bugReportLogService.getBugReportLogsList().subscribe(
-  //     data => {
-  //       this.bugReportLogs = data;
-  //     },
-  //     error => {
-  //       console.error('Error fetching bug report logs:', error);
-  //     }
-  //   );
-  // }
-
   listBugReportLogs() {
     this.searchMode = this.route.snapshot.paramMap.has('keyword');
 

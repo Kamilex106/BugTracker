@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BugAssignmentService } from '../../services/bug-assignment.service';
 import { BugReportService } from '../../services/bug-report.service';
 import { UserService } from '../../services/user.service';
+import {forkJoin} from 'rxjs';
 
 @Component({
   selector: 'app-bug-assignment',
@@ -13,7 +14,9 @@ import { UserService } from '../../services/user.service';
 export class BugAssignmentComponent implements OnInit {
   assignForm!: FormGroup;
   bugReports: any[] = [];
+  filteredBugReports: any[] = [];
   employees: any[] = [];
+  filteredEmployees: any[] = [];
   assignments: any[] = [];
 
   // Zakładamy istnienie serwisów BugReportService i UserService
@@ -28,44 +31,85 @@ export class BugAssignmentComponent implements OnInit {
   ngOnInit(): void {
     // Inicjalizacja formularza przypisania (Reactive Forms)
     this.assignForm = this.fb.group({
-      bugReportId: ['', Validators.required],
-      employeeId: ['', Validators.required]
+      bugReportId: [null, Validators.required],
+      employeeId: [null, Validators.required]
     });
-    // Pobranie listy wszystkich zgłoszeń i użytkowników do wyboru w formularzu
-    this.bugReportService.getBugReportList().subscribe(reports => {
-      this.bugReports = reports;
+
+    this.loadInitialData();
+
+    this.assignForm.get('bugReportId')?.valueChanges.subscribe(value => {
+      console.log('bugReportId changed to:', value);
+      console.log('filteredBugReports:', this.filteredBugReports);
     });
-    this.userService.getUsersList().subscribe(users => {
-      this.employees = users;
+  }
+
+  private loadInitialData(): void {
+    // Użyj forkJoin aby poczekać na wszystkie dane
+    forkJoin({
+      reports: this.bugReportService.getBugReportListPaginated(0, 100),
+      users: this.userService.getAdminUsers(),
+      assignments: this.bugAssignmentService.getAllAssignments()
+    }).subscribe({
+      next: ({ reports, users, assignments }) => {
+        this.bugReports = reports;
+        this.filteredBugReports = [...reports];
+        this.employees = users;
+        this.filteredEmployees = [...users];
+        this.assignments = assignments;
+
+        // Teraz możesz bezpiecznie ustawić listenery
+        this.setupFormListeners();
+      },
+      error: (err) => {
+        console.error('Błąd przy ładowaniu danych:', err);
+      }
     });
-    // Pobranie istniejących przypisań do wyświetlenia w tabeli
-    this.loadAssignments();
+  }
+
+  private setupFormListeners(): void {
+    this.assignForm.get('bugReportId')?.valueChanges.subscribe(selectedBugId => {
+      this.updateFilteredEmployees(selectedBugId);
+    });
+
+    this.assignForm.get('employeeId')?.valueChanges.subscribe(selectedEmployeeId => {
+      this.updateFilteredBugReports(selectedEmployeeId);
+    });
   }
 
   // Pomocnicza metoda do pobrania wszystkich przypisań z serwisu
   loadAssignments(): void {
     this.bugAssignmentService.getAllAssignments().subscribe(assignments => {
       this.assignments = assignments;
+
+      this.updateFilteredEmployees(this.assignForm.get('bugReportId')?.value);
+      this.updateFilteredBugReports(this.assignForm.get('employeeId')?.value);
     });
   }
 
   // Obsługa złożenia formularza przypisania
   onAssign(): void {
-    if (this.assignForm.valid) {
-      const { bugReportId, employeeId } = this.assignForm.value;
-      // Wywołanie serwisu do przypisania błędu użytkownikowi (POST /api/assignments/assign)
-      this.bugAssignmentService.assignBugToUser(bugReportId, employeeId).subscribe({
-        next: response => {
-          // Po pomyślnym przypisaniu odśwież listę przypisań i wyczyść formularz
-          this.loadAssignments();
-          this.assignForm.reset();
-        },
-        error: err => {
-          console.error('Błąd przy przypisywaniu zgłoszenia:', err);
-        }
-      });
-    }
+    if (!this.assignForm.valid) return;
+
+    const { bugReportId, employeeId } = this.assignForm.value;
+
+    this.bugAssignmentService.assignBugToUser(bugReportId, employeeId).subscribe({
+      next: response => {
+        this.loadAssignments();
+        // Resetuj formularz do wartości początkowych
+        this.assignForm.reset({
+          bugReportId: null,
+          employeeId: null
+        });
+        // Przywróć pełne listy po resecie
+        this.filteredBugReports = [...this.bugReports];
+        this.filteredEmployees = [...this.employees];
+      },
+      error: err => {
+        console.error('Błąd przy przypisywaniu zgłoszenia:', err);
+      }
+    });
   }
+
 
   // Usunięcie przypisania (DELETE /api/assignments/{id})
   onDelete(assignmentId: number): void {
@@ -78,5 +122,35 @@ export class BugAssignmentComponent implements OnInit {
         console.error('Błąd przy usuwaniu przypisania:', err);
       }
     });
+  }
+
+  private updateFilteredEmployees(selectedBugId: number) {
+    if (!selectedBugId) {
+      this.filteredEmployees = [...this.employees];
+      return;
+    }
+
+    const assignedUserIds = this.assignments
+      .filter(a => a.bugReport?.id === +selectedBugId)
+      .map(a => a.employee?.id);
+
+    this.filteredEmployees = this.employees.filter(
+      u => !assignedUserIds.includes(u.id)
+    );
+  }
+
+  private updateFilteredBugReports(selectedEmployeeId: number) {
+    if (!selectedEmployeeId) {
+      this.filteredBugReports = [...this.bugReports];
+      return;
+    }
+
+    const assignedBugIds = this.assignments
+      .filter(a => a.employee?.id === +selectedEmployeeId)   //
+      .map(a => a.bugReport?.id);
+
+    this.filteredBugReports = this.bugReports.filter(
+      b => !assignedBugIds.includes(b.id)
+    );
   }
 }

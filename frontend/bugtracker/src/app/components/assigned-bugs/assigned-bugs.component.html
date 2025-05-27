@@ -1,0 +1,58 @@
+<div class="bug-reports-container">
+  <h2 class="page-title">Assigned Bugs</h2>
+
+  <!-- Add New Bug Report Button -->
+
+  <!-- Bug Reports Table -->
+  <div class="table-container">
+    <table class="bug-reports-table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Priority</th>
+        <th>Category</th>
+        <th>Status</th>
+        <th>Date Created</th>
+        <th>User</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let tempbug of bug_reports_paginated" class="table-row">
+        <td>{{ tempbug.id }}</td>
+        <td class="title-cell">{{ tempbug.title }}</td>
+        <td class="description-cell">{{ tempbug.description }}</td>
+        <td>
+            <span class="priority-badge" [ngClass]="getPriorityClass(tempbug.priority)">
+              {{ tempbug.priority }}
+            </span>
+        </td>
+        <td>{{ tempbug.category?.name || 'No category' }}</td>
+        <td>
+            <span class="status-badge" [ngClass]="getStatusClass(tempbug.actualStatus?.name)">
+              {{ tempbug.actualStatus?.name || 'No status' }}
+            </span>
+        </td>
+        <td class="date-cell">{{ tempbug.createdAt | date:'short' }}</td>
+        <td>{{ tempbug.user ? tempbug.user.username : 'None' }}</td>
+        <td>
+          <button class="btn-view" [routerLink]="['/bugdetails/', tempbug.id]">
+            View Details
+          </button>
+
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Empty State -  -->
+  <div *ngIf="bug_reports_paginated?.length === 0" class="empty-state">
+    <p>No bug reports found.</p>
+    <button class="btn-primary" routerLink="/bugreport/add">
+      Create First Bug Report
+    </button>
+  </div>
+</div>

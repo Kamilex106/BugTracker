@@ -86,4 +86,31 @@ public class UserRepositoryImpl implements UserRepository {
         return getAllUsers();
     }
 
+    @Override
+    @Transactional
+    public void deleteUser(Users user) {
+        entityManager.remove(entityManager.contains(user) ? user : entityManager.merge(user));
+    }
+
+    @Override
+    public Optional<Users> findById(Integer id) {
+        return Optional.ofNullable(entityManager.find(Users.class, id));
+    }
+
+    @Override
+    public long count() {
+        TypedQuery<Long> query = entityManager.createQuery("SELECT COUNT(u) FROM Users u", Long.class);
+        return query.getSingleResult();
+    }
+
+    @Override
+    public List<Users> getUsersByRole(String roleName) {
+        TypedQuery<Users> query = entityManager.createQuery(
+                "SELECT DISTINCT u FROM Users u JOIN u.roles r WHERE r.name = :roleName",
+                Users.class
+        );
+        query.setParameter("roleName", roleName);
+        return query.getResultList();
+    }
+
 }

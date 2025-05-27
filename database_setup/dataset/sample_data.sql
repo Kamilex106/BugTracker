@@ -58,9 +58,9 @@ VALUES
 
 INSERT INTO category (name)
 VALUES
-    ('Bug category 1'),
-    ('Bug category 2'),
-    ('Bug category 3');
+    ('Authentication & Access Control'),
+    ('API & Server Communication'),
+    ('User Interface & Layout');
 
 -- Inserting sample bug statuses
 INSERT INTO bug_status (name)
@@ -195,3 +195,11 @@ VALUES
     (1, 2),
     (2, 3),
     (3, 1);
+
+-- Insert sample bug report comments with custom dates
+INSERT INTO bug_report_comment (user_id, bug_report_id, comment, date)
+VALUES
+(1, 1, 'This bug occurs when submitting the form with special characters.', '2023-05-15 09:30:00'),
+(2, 1, 'I can reproduce this in Firefox.', '2023-05-15 14:45:22'),
+(3, 1, 'Fixed in commit a1b2c3d.', '2023-05-16 11:15:10'),
+(4, 1, 'THIS SHOULD BE ON TOP.', '2020-05-16 11:15:10');

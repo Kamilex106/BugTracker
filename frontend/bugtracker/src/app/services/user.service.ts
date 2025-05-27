@@ -15,4 +15,18 @@ export class UserService {
   getUsersList(): Observable<User[]> {
     return this.httpClient.get<User[]>(this.baseUrl);
   }
+
+  deleteUser(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`http://localhost:8080/users/${id}`);
+  }
+
+  updateUserStatus(userId: number, enabled: boolean) {
+    return this.httpClient.patch(`${this.baseUrl}/${userId}/status`,
+      { enabled });
+  }
+
+  getAdminUsers(): Observable<any[]> {
+    return this.httpClient.get<any[]>('http://localhost:8080/users/admins');
+  }
+
 }

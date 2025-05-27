@@ -5,3 +5,12 @@
     {{ bubbleMessage }}
   </div>
 </div>
+
+<div *ngIf="showRain" class="bug-rain">
+  <i *ngFor="let bug of rainBugs"
+     class="fas fa-bug bug-rain-icon"
+     [ngClass]="bug.animationClass"
+     [style.left.%]="bug.left"
+     [style.fontSize.px]="bug.size">
+  </i>
+</div>

@@ -13,6 +13,7 @@ import {BugReportLog} from '../common/bug-report-log';
 export class BugReportService {
 
   private baseUrl = 'http://localhost:8080/bugReports';
+  private apiUrl = 'http://localhost:8080/api/bugreports';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -24,26 +25,41 @@ export class BugReportService {
     withCredentials: true
   };
 
+  getBugReportListFiltered(): Observable<BugReport[]> {
+    return this.httpClient.get<BugReport[]>(this.apiUrl);
+  }
+
+  getBugReportListPaginatedFiltered(page: number = 0, size: number = 100): Observable<BugReport[]> {
+    const url = `${this.apiUrl}/paginated?page=${page}&size=${size}`;
+    return this.httpClient.get<any>(url).pipe(
+      map(response => response.content || response) // Obsługa Page<T> lub zwykłej listy
+    );
+  }
+
+  searchBugReportsFiltered(keyword: string): Observable<BugReport[]> {
+    const url = `${this.apiUrl}/search?keyword=${keyword}`;
+    return this.httpClient.get<BugReport[]>(url);
+  }
+
+  // dla select np. /bugAssignments
   getBugReportList(): Observable<BugReport[]> {
-    // return this.httpClient.get<GetResponse>(this.baseUrl).pipe(
-    //   map(response => response._embedded.bugReports.map(bug =>
-    //     new BugReport(
-    //       bug.id,
-    //       bug.title,
-    //       bug.description,
-    //       bug.priority,
-    //       bug.createdAt,
-    //       undefined, // category będzie dodane później
-    //       undefined, // status będzie dodany później
-    //       bug.user,
-    //       bug._links
-    //     )
-    //   ))
-    // );
     return this.httpClient.get<GetResponse>(this.baseUrl, this.httpOptions).pipe(
       map(response => response._embedded.bugReports)
     );
   }
+
+  // dla calego wyswietlania np. /bugReports
+  getBugReportListPaginated(page: number = 0, size: number = 20): Observable<BugReport[]> {
+    const url = `${this.baseUrl}?page=${page}&size=${size}`;
+    return this.httpClient.get<GetResponse>(url, this.httpOptions).pipe(
+      map(response => response._embedded.bugReports)
+    );
+  }
+
+  getAssignedBugReports(): Observable<BugReport[]> {
+    return this.httpClient.get<BugReport[]>(`http://localhost:8080/api/bugreports/assigned`, this.httpOptions);
+  }
+
 
   // getBugReportList(): Observable<BugReport[]> {
   //   return this.httpClient.get<GetResponse>(this.baseUrl).pipe(
@@ -103,30 +119,56 @@ export class BugReportService {
     return this.httpClient.get<BugStatus>(statusUrl);
   }
 
-  getBugReportById(id: number): Observable<BugReportLog> {
+  // bug-report.service.ts
+  getBugReportById(id: number): Observable<BugReport> {
     const url = `${this.baseUrl}/${id}`;
     return this.httpClient.get<any>(url).pipe(
-      switchMap(log => {
+      switchMap(bugReport => {
         const requests = {
-          log: of(log),
-          status: log._links?.bugStatus?.href
-            ? this.httpClient.get<BugStatus>(log._links.bugStatus.href)
+          bugReport: of(bugReport),
+          category: bugReport._links?.category?.href
+            ? this.httpClient.get<Category>(bugReport._links.category.href)
             : of(null),
-          report: log._links?.bugReport?.href
-            ? this.httpClient.get<BugReport>(log._links.bugReport.href)
+          actualStatus: bugReport._links?.actualStatus?.href
+            ? this.httpClient.get<BugStatus>(bugReport._links.actualStatus.href)
             : of(null)
         };
 
         return forkJoin(requests).pipe(
-          map(({log, status, report}) => ({
-            ...log,
-            bugStatus: status,
-            bugReport: report
+          map(({ bugReport, category, actualStatus }) => ({
+            ...bugReport,
+            category: category || new Category(),
+            actualStatus: actualStatus || new BugStatus()
           }))
         );
       })
     );
   }
+
+
+  // W bug-report.service.ts
+  // W bug-report.service.ts
+  // updateBugReportStatus(bugReportId: number, status: string): Observable<BugReport> {
+  //   return this.httpClient.put<BugReport>(`${this.baseUrl}/${bugReportId}/actualStatus`, { status });
+  // }
+  updateBugReportStatus(bugReportId: number, status: string): Observable<BugReport> {
+    return this.httpClient.put<BugReport>(`${this.baseUrl2}/${bugReportId}/status`, { status });
+  }
+
+
+
+  addCommentWithStatus(payload: {
+    userId: number,
+    bugReportId: number,
+    comment: string,
+    newStatus?: string | null
+  }): Observable<any> {
+    return this.httpClient.post<any>(
+      `http://localhost:8080/bugreports/${payload.bugReportId}/comments-with-status`,
+      payload
+    );
+  }
+
 }
 
 interface GetResponse {

@@ -2,29 +2,26 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-animated-bug',
-  standalone: false,
   templateUrl: './animated-bug.component.html',
-  styleUrl: './animated-bug.component.css'
+  styleUrls: ['./animated-bug.component.css'],
+  standalone: false
 })
 export class AnimatedBugComponent {
   bugClicks = 0;
   isShaking = false;
   bubbleMessage = '';
+  showRain = false;
+
+  rainBugs: { id: number, animationClass: string, left: number, size: number }[] = [];
 
   onBugClick(): void {
     this.bugClicks++;
     console.log(`Kliknięcia w robaczka: ${this.bugClicks}`);
 
-    // RESET animacji: najpierw wyłącz, potem załącz
     this.isShaking = false;
     setTimeout(() => {
       this.isShaking = true;
-
-      // Animacja trwa np. 3 sekundy
-      setTimeout(() => {
-        this.isShaking = false;
-      }, 3000);
-
+      setTimeout(() => this.isShaking = false, 3000);
     }, 10);
 
     if (this.bugClicks % 5 === 0) {
@@ -37,22 +34,39 @@ export class AnimatedBugComponent {
         `Congratulations! You've caught ${this.bugClicks} brave ${robaczekText}!`
       ];
       const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-
       this.showBubbleMessage(randomMessage);
+    }
+
+    if (this.bugClicks % 10 === 0) {
+      this.triggerBugRain(this.bugClicks); // Przekazujemy liczbę kliknięć
     }
   }
 
   getBugText(count: number): string {
-    if (count === 1) {
-      return 'bug'; // Singular form for count = 1
-    }
-    return 'bugs'; // Plural form for any count other than 1
+    return count === 1 ? 'bug' : 'bugs';
   }
 
   showBubbleMessage(message: string): void {
     this.bubbleMessage = message;
+    setTimeout(() => this.bubbleMessage = '', 4000);
+  }
+
+  triggerBugRain(bugCount: number): void { // Odbieramy liczbę kliknięć
+    this.showRain = true;
+    // Ustawiamy liczbę robaków na liczby kliknięć, 
+    const numberOfBugs = Math.min(bugCount, 50); // Maksymalnie 50 robaków
+
+    this.rainBugs = Array.from({ length: numberOfBugs }, (_, i) => ({
+      id: i,
+      animationClass: `anim${Math.floor(Math.random() * 5) + 1}`,
+      left: Math.random() * 100,
+      size: Math.random() * 40 + 60
+    }));
+
     setTimeout(() => {
-      this.bubbleMessage = '';
-    }, 4000);
+      this.showRain = false;
+      this.rainBugs = [];
+    }, 5000);
   }
 }
+

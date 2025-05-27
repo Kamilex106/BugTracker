@@ -7,12 +7,14 @@ import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:4200")
-public interface UserRepository {
+public interface UserRepository  {
 
     Users findByUserName(String userName);
 
 //    public Users findByUserId(Integer id);
     public Optional<Users> findByUserId(Integer id);
+
+    Optional<Users> findById(Integer id);
 
     void save(Users user);
 
@@ -23,4 +25,10 @@ public interface UserRepository {
     Optional<Users> findByOktaId(String oktaId);
 
     List<Users> findAll();
+
+    void deleteUser(Users user);
+
+    long count();
+
+    List<Users> getUsersByRole(String roleName);
 }

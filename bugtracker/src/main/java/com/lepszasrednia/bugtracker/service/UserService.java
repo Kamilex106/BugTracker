@@ -3,6 +3,7 @@ package com.lepszasrednia.bugtracker.service;
 import com.lepszasrednia.bugtracker.entity.Roles;
 import com.lepszasrednia.bugtracker.entity.Users;
 import com.lepszasrednia.bugtracker.user.WebUser;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,4 +17,10 @@ public interface UserService {
 
     Roles findRoleByName(String roleName);
 
+    @Transactional
+    void deleteUser(Long id);
+
+    void updateStatus(Long id, Boolean enabled);
+
+    List<Users> getUsersByRole(String roleAdmin);
 }

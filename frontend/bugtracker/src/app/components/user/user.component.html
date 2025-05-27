@@ -1,40 +1,56 @@
-<h3>List of Users</h3>
+<div class="user-container">
+  <div *ngIf="message" class="global-message" [ngClass]="{
+    'global-message-success': messageType === 'success',
+    'global-message-error': messageType === 'error'
+  }">
+    {{ message }}
+  </div>
 
-<div class="table-responsive">
-  <table class="table text-center table-striped table-hover">
-    <thead class="table-dark">
-    <tr>
-      <th>ID</th>
-      <th>Username</th>
-      <th>Email</th>
-      <th>Status</th>
-      <th>Roles</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let tempUser of users">
-      <td class="align-middle">{{ tempUser.id }}</td>
-      <td class="align-middle">{{ tempUser.username }}</td>
-      <td class="align-middle">{{ tempUser.email }}</td>
-      <td class="align-middle">
-          <span class="rounded-2 px-3 py-1 text-white"
-                [ngClass]="{
-              'bg-success': tempUser.enabled,
-              'bg-danger': !tempUser.enabled
-            }">
-            {{ tempUser.enabled ? 'Active' : 'Inactive' }}
-          </span>
-      </td>
-      <td class="align-middle text-start">
-          <span *ngFor="let role of tempUser.roles" class="badge bg-info me-2">
-            {{ role.name?.replace('ROLE_', '') || 'User' }}
-          </span>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+  <div class="actions-section">
+    <h2 class="page-title">List of Users</h2>
+    <!-- Można dodać przycisk do dodawania nowego użytkownika -->
+    
+  </div>
 
-<div *ngIf="users.length === 0" class="alert alert-info">
-  No users to display.
+  <div class="table-container">
+    <table class="bug-reports-table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Status</th>
+        <th>Roles</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let tempUser of users" class="table-row">
+        <td>{{ tempUser.id }}</td>
+        <td class="title-cell">{{ tempUser.username }}</td>
+        <td class="description-cell">{{ tempUser.email }}</td>
+        <td>
+            <span class="status-badge"
+                  [ngClass]="tempUser.enabled ? 'status-resolved' : 'status-open'"
+                  (click)="toggleStatus(tempUser)">
+              {{ tempUser.enabled ? 'Active' : 'Inactive' }}
+            </span>
+        </td>
+        <td>
+            <span *ngFor="let role of tempUser.roles" class="role-badge">
+              {{ role.name?.replace('ROLE_', '') || 'User' }}
+            </span>
+        </td>
+        <td class="action-buttons">
+          <button class="btn-delete" (click)="deleteUser(tempUser.id!)">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="users.length === 0" class="empty-state">
+    <p>No users to display.</p>
+    <button class="btn-primary" routerLink="/user/add">Create First User</button>
+  </div>
 </div>

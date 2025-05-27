@@ -2,6 +2,9 @@ package com.lepszasrednia.bugtracker.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 @Entity
 @Table(name = "roles")
 public class Roles {
@@ -13,6 +16,9 @@ public class Roles {
 
     @Column(name = "name", length = 50)
     private String name;
+
+    @ManyToMany(mappedBy = "roles")
+    private Collection<Users> users = new ArrayList<>();
 
     public Roles() {}
 

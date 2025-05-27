@@ -1,16 +1,104 @@
-<h2>Bug Report Details</h2>
+<div class="container">
+  <h2>Bug Report Details</h2>
 
-<div *ngIf="bugReport; else loading">
-  <p><strong>ID:</strong> {{ bugReport.id }}</p>
-  <p><strong>Bug Report:</strong> {{ bugReport.title || 'No title' }}</p>
-  <p><strong>Description:</strong> {{ bugReport.description || 'No description' }}</p>
-  <!--  <p><strong>Data:</strong> {{ bugReport.date || 'Brak daty' }}</p>-->
-  <p><strong>Bug Status:</strong> {{ bugReport.actualStatus?.name || 'No status' }}</p>
+  <div *ngIf="bugReport; else loading">
+    <!-- Bug Info Card -->
+    <div class="bug-info-card">
+      <p><strong>ID:</strong> {{ bugReport.id }}</p>
+      <p><strong>Title:</strong> {{ bugReport.title || 'No title' }}</p>
+      <p><strong>Description:</strong> {{ bugReport.description || 'No description' }}</p>
+      <p><strong>Current Status:</strong>
+        <span class="status-badge-main" [ngClass]="getStatusClass(bugReport.actualStatus?.name)">
+          {{ bugReport.actualStatus?.name || 'No status' }}
+        </span>
+      </p>
+    </div>
 
-  <button class="btn btn-secondary" routerLink="/bug-reports">Back</button>
+    <div class="timeline-section">
+      <h3>Activity Timeline</h3>
+
+      <!-- Comment form -->
+      <div class="add-comment-form" *ngIf="canAddComments() || (isAdmin && isBugClosed())">
+        <div class="comment-header">
+          <strong>Add Comment</strong>
+          <span class="status-badge" *ngIf="isBugClosed() && isAdmin">
+            Bug closed
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="newComment">Comment</label>
+          <textarea
+            id="newComment"
+            [(ngModel)]="newComment"
+            placeholder="Enter your comment..."></textarea>
+        </div>
+
+        <div class="form-group" *ngIf="isAdmin">
+          <label for="statusSelect">Change status (optional)</label>
+          <select id="statusSelect" [(ngModel)]="selectedStatusForComment">
+            <option value="">-- No status change --</option>
+            <option *ngFor="let status of availableStatuses" [value]="status">
+              {{ status }}
+            </option>
+          </select>
+        </div>
+
+        <button
+          type="button"
+          class="btn-submit"
+          (click)="submitCommentWithOptionalStatusChange()"
+          [disabled]="!newComment.trim() && !selectedStatusForComment">
+          Add Comment
+        </button>
+      </div>
+
+      <!-- Message for regular users -->
+      <div class="user-info-message" *ngIf="isBugClosed() && !isAdmin">
+        <i class="bi bi-lock"></i>
+        <strong>This bug has been closed.</strong>
+        Only administrators can add comments to closed bugs.
+      </div>
+
+      <!-- Timeline Items -->
+      <div class="timeline-container">
+        <ng-container *ngFor="let item of timelineItems; trackBy: trackByFn">
+          <!-- Comment Item -->
+          <div *ngIf="item.type === 'comment'" class="comment-card">
+            <div class="comment-header">
+              <strong>{{ item.user.username }}</strong>
+              <span class="comment-date">{{ item.date | date:'medium' }}</span>
+            </div>
+            <div class="comment-body">
+              {{ item.comment }}
+            </div>
+          </div>
+
+          <!-- Status Change Item -->
+          <div *ngIf="item.type === 'statusChange'"
+               class="status-change-card"
+               [ngClass]="getStatusClass(item.status)">
+            <div class="status-change-header">
+              <span class="status-change-date">{{ item.date | date:'medium' }}</span>
+            </div>
+            <div class="status-change-body">
+              <p class="status-badge">
+                Status changed to: <strong>{{ item.status }}</strong>
+              </p>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="text-center" style="margin-top: 2rem;">
+      <a class="btn-submit" routerLink="/bugs">Back to Bug Reports</a>
+    </div>
+  </div>
+
+  <ng-template #loading>
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+    </div>
+  </ng-template>
 </div>
-
-<ng-template #loading>
-  <p>Loading data...</p>
-</ng-template>
-

@@ -6,6 +6,7 @@ import com.lepszasrednia.bugtracker.repository.RoleRepository;
 import com.lepszasrednia.bugtracker.repository.UserRepository;
 import com.lepszasrednia.bugtracker.user.WebUser;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
@@ -16,14 +17,17 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 //    private PasswordEncoder passwordEncoder;
+    private final OktaService oktaService;
 
     public UserServiceImpl(
             UserRepository userRepository,
 //            PasswordEncoder passwordEncoder
-            RoleRepository roleRepository
+            RoleRepository roleRepository,
+            OktaService oktaService
     ) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.oktaService = oktaService;
     }
 
     @Override
@@ -56,4 +60,45 @@ public class UserServiceImpl implements UserService {
     public Roles findRoleByName(String roleName) {
         return roleRepository.findByRoleName(roleName);
     }
+
+    @Override
+    @Transactional
+    public void deleteUser(Long id) {
+        Users user = userRepository.findByUserId(id.intValue())
+                .orElseThrow(() -> new RuntimeException("User not found with id " + id));
+
+        // Usuń użytkownika z Okta, jeśli ma przypisane OktaId
+        if (user.getOktaId() != null && !user.getOktaId().isEmpty()) {
+            oktaService.deleteUserFromOkta(user.getOktaId());
+
+        }
+
+        userRepository.deleteUser(user);
+    }
+
+    @Override
+    @Transactional
+    public void updateStatus(Long id, Boolean enabled) {
+
+        Users user = userRepository.findByUserId(id.intValue())
+                .orElseThrow(() -> new RuntimeException("User not found with id " + id));
+
+        // Okta ↔ lokalnie
+        if (user.getOktaId() != null && !user.getOktaId().isEmpty()) {
+            if (enabled) {
+                oktaService.activateUser(user.getOktaId());
+            } else {
+                oktaService.deactivateUser(user.getOktaId());
+            }
+        }
+
+        user.setEnabled(enabled);
+        userRepository.save(user);
+    }
+
+
+    public List<Users> getUsersByRole(String roleName) {
+        return userRepository.getUsersByRole(roleName);
+    }
+
 }
