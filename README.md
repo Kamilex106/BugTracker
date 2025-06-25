@@ -66,6 +66,6 @@ ng serve
 
 ## Admin access
 Sample user with admin rights for testing:
-Login: admin1@gm.pl
-Haslo: Okta@Bug106
+- Login: admin1@gm.pl
+- Password: Okta@Bug106
 
