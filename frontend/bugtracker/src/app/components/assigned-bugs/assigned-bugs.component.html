@@ -12,8 +12,8 @@
         <th>Title</th>
         <th>Description</th>
         <th>Priority</th>
-        <th>Category</th>
-        <th>Status</th>
+<!--        <th>Category</th>-->
+<!--        <th>Status</th>-->
         <th>Date Created</th>
         <th>User</th>
         <th>Action</th>
@@ -29,12 +29,12 @@
               {{ tempbug.priority }}
             </span>
         </td>
-        <td>{{ tempbug.category?.name || 'No category' }}</td>
-        <td>
-            <span class="status-badge" [ngClass]="getStatusClass(tempbug.actualStatus?.name)">
-              {{ tempbug.actualStatus?.name || 'No status' }}
-            </span>
-        </td>
+<!--        <td>{{ tempbug.category?.name || 'No category' }}</td>-->
+<!--        <td>-->
+<!--            <span class="status-badge" [ngClass]="getStatusClass(tempbug.actualStatus?.name)">-->
+<!--              {{ tempbug.actualStatus?.name || 'No status' }}-->
+<!--            </span>-->
+<!--        </td>-->
         <td class="date-cell">{{ tempbug.createdAt | date:'short' }}</td>
         <td>{{ tempbug.user ? tempbug.user.username : 'None' }}</td>
         <td>
