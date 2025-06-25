@@ -2,8 +2,6 @@
 ## Project Description:
 BugTracker is an application that enables IT teams to efficiently report, track, and manage bugs and other software issues.
 
-**Project is currently under development.**
-
 ## Features:
 - **Issue Registration** – Ability to add new bug reports with description, priority, and category.
 - **Issue Assignment** – Assigning bugs to specific team members.
@@ -63,5 +61,11 @@ ng serve
 - **Jakub Krupicki**  
 - **Bartosz Kowalski**  
 - **Filip Maksymiuk**  
-- **Remigiusz Leś**   
+- **Remigiusz Leś**
+
+
+## Admin access
+Sample user with admin rights for testing:
+Login: admin1@gm.pl
+Haslo: Okta@Bug106
 
